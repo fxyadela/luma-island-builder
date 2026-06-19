@@ -2,6 +2,14 @@
 
 Use this reference to keep the work island focused. The mistake to avoid is building a cute desktop object that does not remove any real work friction.
 
+## Mission
+
+光岛的使命：**一触即发。**
+
+English expression: **One touch. Work starts.**
+
+This is not decorative copy. Use it as a product test: every default module should move the user from intent to action with one click or one short confirmation.
+
 ## Positioning
 
 A desktop work island is a small, persistent task layer at the edge of the desktop. It gathers the actions users repeat every day:

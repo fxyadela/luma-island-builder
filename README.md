@@ -1,5 +1,8 @@
 # 光岛 / Luma Island Builder
 
+**光岛的使命：一触即发。**  
+**Mission: One touch. Work starts.**
+
 - [中文版本](#中文版本)
 - [English Version](#english-version)
 
@@ -10,6 +13,8 @@
 `luma-island-builder` 是一个 Codex Skill，用来引导用户通过对话做出一个可运行的桌面工作岛。
 
 光岛不是桌宠皮肤，也不是一个漂亮概念稿。它的目标是把用户每天重复的高频动作收进一个桌面边缘的小入口：打开链接、复制资料、生成模板回复、记录待办、查看状态、运行本地脚本。
+
+它的使命只有一句话：**一触即发。** 用户不该在入口上浪费启动成本，点一下，任务就应该开始。
 
 ### 它能做什么
 
@@ -113,6 +118,8 @@ Skill is valid!
 `luma-island-builder` is a Codex Skill for guiding users through building a small, runnable desktop work island.
 
 Luma Island is not a desktop pet skin or a polished concept mockup. Its purpose is to collect the user's repeated daily actions into a small desktop-edge entry point: opening links, copying reusable snippets, generating template replies, capturing todos, checking status, and running local scripts.
+
+Its mission is simple: **One touch. Work starts.** The user should not waste energy finding the entry point; one click should start the task.
 
 ### What It Does
 

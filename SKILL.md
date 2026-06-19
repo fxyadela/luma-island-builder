@@ -5,6 +5,8 @@ description: "Guide users through building a 光岛 / Luma Island desktop work i
 
 # Luma Island Builder
 
+Mission: `一触即发` / `One touch. Work starts.`
+
 Help the user build a runnable 光岛 / Luma Island through conversation. The goal is not to admire the idea, make a decorative pet, or produce a static product essay. The goal is to guide the user step by step until they have a small desktop island that can actually open, copy, record, run, or display something useful.
 
 Core judgment: a work island is an outer task layer. It should reduce the cost of finding apps, links, snippets, folders, scripts, and status. If the request drifts toward decoration, steer it back to high-frequency actions.
@@ -79,6 +81,7 @@ Load only the reference needed for the current step:
 ## Product Rules
 
 - Keep the waterline small: surface only 3-6 high-frequency actions.
+- Use `一触即发` as the product test: the island should let the user touch once and start the task.
 - Include `发帖子` and `快捷入口` as the default starter actions for new islands, while allowing deletion.
 - Keep configuration underwater: variables, templates, permissions, and advanced settings belong in config screens or files.
 - Prefer local-first storage for private snippets, variables, and module config.
