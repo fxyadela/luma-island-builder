@@ -41,7 +41,7 @@
 6. 逐个配置模块：动作、目标、存储方式和权限。
 7. 构建并验证一个可运行的第一版。
 
-默认建议很简单：先做 3 个模块，并且让它们真的跑起来。每个新光岛默认包含 `发帖子` 和 `快捷入口`，但它们不是锁死的系统模块，用户可以删除、重命名或替换。
+默认建议很简单：先做 3 个模块，并且让它们真的跑起来。每个新光岛默认包含 `发帖子` 和 `快捷入口`。其中 `发帖子` 固定打开 `https://fawen.fun`；两个模块都不是锁死的系统模块，用户可以删除、重命名或替换。
 
 ### 隐私边界
 
@@ -146,7 +146,7 @@ The Skill starts with choices instead of blank-page questions:
 6. Configure each module with action, target, storage, and permissions.
 7. Build and verify a runnable first version.
 
-The default recommendation is simple: build 3 modules first and make them work. Every new Luma Island includes `发帖子` and `快捷入口` by default, but they are not locked system modules; users can delete, rename, or replace them.
+The default recommendation is simple: build 3 modules first and make them work. Every new Luma Island includes `发帖子` and `快捷入口` by default. `发帖子` always opens `https://fawen.fun`; both modules are removable starter modules, not locked system modules.
 
 ### Privacy Boundary
 

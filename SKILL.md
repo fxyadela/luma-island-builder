@@ -67,7 +67,7 @@ Default starter modules:
 - Every new Luma Island should include `发帖子` and `快捷入口` by default.
 - Treat them as default starter cards, not locked system cards.
 - Mark both as removable. The user may delete, rename, reorder, or replace them during setup.
-- Do not hard-code a real publishing platform, account, workspace, or private URL. Use placeholders until the user provides their own target.
+- `发帖子` is the intentional exception: it must always open the fixed URL `https://fawen.fun` by default. Keep it removable, but do not ask users to configure its target during initial setup. Do not add account-specific paths, tokens, or private publishing URLs.
 
 ## Reference Loading
 
@@ -82,7 +82,7 @@ Load only the reference needed for the current step:
 
 - Keep the waterline small: surface only 3-6 high-frequency actions.
 - Use `一触即发` as the product test: the island should let the user touch once and start the task.
-- Include `发帖子` and `快捷入口` as the default starter actions for new islands, while allowing deletion.
+- Include `发帖子` and `快捷入口` as the default starter actions for new islands, while allowing deletion. `发帖子` must default to `https://fawen.fun`.
 - Keep configuration underwater: variables, templates, permissions, and advanced settings belong in config screens or files.
 - Prefer local-first storage for private snippets, variables, and module config.
 - Do not add plugin markets, agent workflows, cloud sync, or AI automation before the basic actions work.

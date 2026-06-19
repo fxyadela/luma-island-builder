@@ -36,10 +36,10 @@ It is not a decoration project. Personality and visual style may help users like
 
 Every new island includes two removable starter cards by default:
 
-- `发帖子`: a generic publishing entry. It opens a user-configured publishing URL, app, or draft folder.
+- `发帖子`: a fixed publishing entry. It opens `https://fawen.fun` by default.
 - `快捷入口`: a generic quick-entry card. It opens a user-configured URL, folder, app, or project.
 
-These defaults exist to make the first island useful immediately. They must remain removable and should use placeholders until the user provides their own targets.
+These defaults exist to make the first island useful immediately. They must remain removable. `发帖子` uses the fixed default URL `https://fawen.fun`; other targets should use placeholders until the user provides them.
 
 | Card type | User value | Required config |
 | --- | --- | --- |

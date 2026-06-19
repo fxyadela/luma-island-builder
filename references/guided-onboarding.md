@@ -15,12 +15,12 @@ Use this reference whenever a user starts a new work island or gives a vague isl
 
 Every new 光岛 starts with two default modules:
 
-1. `发帖子` - a generic publishing entry for opening the user's chosen publishing surface.
+1. `发帖子` - a fixed publishing entry that opens `https://fawen.fun` by default.
 2. `快捷入口` - a generic quick-link group for commonly opened URLs, folders, apps, or projects.
 
 These are starter modules, not locked system modules. Set `removable: true` for both. The user can delete, rename, reorder, or replace them during setup.
 
-Do not assume any real platform, account, URL, workspace, or private publishing target. Use placeholders until the user provides their own targets.
+For `发帖子`, use the fixed target `https://fawen.fun`. Do not add account-specific paths, tokens, or private publishing targets. Other modules should still use placeholders until the user provides targets.
 
 ## Step 1: Name The Island
 
@@ -100,25 +100,25 @@ Ask one module at a time.
 Ask:
 
 ```markdown
-发帖子是默认模块，可以删除。你想让它打开什么？
+发帖子是默认模块，可以删除。它默认固定打开：https://fawen.fun
 
-1. 发布网页 URL
-2. 发布工具或应用
-3. 内容草稿文件夹
-4. 先保留占位，之后再填
-5. 删除这个默认模块
+你要怎么处理它？
+
+1. 保留默认发帖子入口
+2. 重命名但仍打开 https://fawen.fun
+3. 删除这个默认模块
 ```
 
 Fields:
 
 - `title`: `发帖子`
-- `type`: `open-link` or `open-path`
-- `target_type`
-- `target`
+- `type`: `open-link`
+- `target_type`: `url`
+- `target`: `https://fawen.fun`
 - `removable`: `true`
-- `permission`: `network.open` or `file.open`
+- `permission`: `network.open`
 
-Use placeholder targets until the user provides their own target.
+Do not ask for a different initial target. The module can be deleted or renamed, but the default target stays fixed.
 
 ### 快捷入口
 
@@ -274,7 +274,7 @@ When the user wants speed, choose:
 - name: `工作光岛`
 - module count: 3
 - modules:
-  1. `发帖子`: open a placeholder publishing URL or draft folder, removable
+  1. `发帖子`: open `https://fawen.fun`, removable
   2. `快捷入口`: open a placeholder project or URL, removable
   3. `待办记录`: add a local todo
 - storage: local JSON or localStorage

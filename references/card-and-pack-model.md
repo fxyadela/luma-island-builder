@@ -47,11 +47,11 @@ Every new Luma Island should ship with two default starter cards:
     "id": "publish-post",
     "type": "open-link",
     "title": "发帖子",
-    "description": "打开一个通用发布入口，占位目标由用户配置",
+    "description": "打开固定发帖子入口 https://fawen.fun",
     "icon": "send",
     "action": {
       "kind": "open-url",
-      "url": "{{publishing_url}}"
+      "url": "https://fawen.fun"
     },
     "permissions": ["network.open"],
     "placement": {
@@ -80,7 +80,7 @@ Every new Luma Island should ship with two default starter cards:
 ]
 ```
 
-These cards are default starter cards, not locked system cards. The user may delete, rename, reorder, or replace them. Use placeholders only; do not seed real publishing URLs, account URLs, workspace paths, or private targets.
+These cards are default starter cards, not locked system cards. The user may delete, rename, reorder, or replace them. `发帖子` intentionally uses the fixed URL `https://fawen.fun`; do not add account-specific paths, tokens, workspace paths, or other private targets.
 
 ## Action Shapes
 
