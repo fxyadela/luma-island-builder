@@ -35,6 +35,52 @@ Required fields:
 - `action`: type-specific action config
 - `permissions`: explicit permission list
 - `placement`: surface and order
+- `removable`: whether the user can delete the card
+
+## Default Starter Cards
+
+Every new Luma Island should ship with two default starter cards:
+
+```json
+[
+  {
+    "id": "publish-post",
+    "type": "open-link",
+    "title": "发帖子",
+    "description": "打开一个通用发布入口，占位目标由用户配置",
+    "icon": "send",
+    "action": {
+      "kind": "open-url",
+      "url": "{{publishing_url}}"
+    },
+    "permissions": ["network.open"],
+    "placement": {
+      "surface": "main",
+      "order": 0
+    },
+    "removable": true
+  },
+  {
+    "id": "quick-entry",
+    "type": "open-link",
+    "title": "快捷入口",
+    "description": "打开一个常用网页、文件夹、应用或项目",
+    "icon": "external-link",
+    "action": {
+      "kind": "open-url",
+      "url": "{{quick_entry_url}}"
+    },
+    "permissions": ["network.open"],
+    "placement": {
+      "surface": "main",
+      "order": 1
+    },
+    "removable": true
+  }
+]
+```
+
+These cards are default starter cards, not locked system cards. The user may delete, rename, reorder, or replace them. Use placeholders only; do not seed real publishing URLs, account URLs, workspace paths, or private targets.
 
 ## Action Shapes
 
@@ -144,17 +190,17 @@ A pack is a set of cards, variables, and default layout. It is not a code plugin
   "audience": "general",
   "variables": ["contact_email", "service_name", "delivery_notes"],
   "cards": [
-    "open-primary-workspace",
-    "copy-service-summary",
+    "publish-post",
+    "quick-entry",
     "capture-todo"
   ],
-  "defaultLayout": ["open-primary-workspace", "copy-service-summary", "capture-todo"]
+  "defaultLayout": ["publish-post", "quick-entry", "capture-todo"]
 }
 ```
 
 Starter pack options:
 
-- `General Starter`: one link, one copy card, one todo
+- `General Starter`: default publish entry, default quick entry, one todo
 - `Creator Starter`: publishing links, prompt snippets, generic service notes
 - `Developer Starter`: project folders, docs, scripts, status
 - `Customer Follow-up Starter`: generic customer reply templates and todos

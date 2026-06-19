@@ -11,6 +11,17 @@ Use this reference whenever a user starts a new work island or gives a vague isl
 - After every answer, compress it into a locked spec line.
 - Move to implementation once name, use case, module count, and module types are known.
 
+## Default Starter Modules
+
+Every new 光岛 starts with two default modules:
+
+1. `发帖子` - a generic publishing entry for opening the user's chosen publishing surface.
+2. `快捷入口` - a generic quick-link group for commonly opened URLs, folders, apps, or projects.
+
+These are starter modules, not locked system modules. Set `removable: true` for both. The user can delete, rename, reorder, or replace them during setup.
+
+Do not assume any real platform, account, URL, workspace, or private publishing target. Use placeholders until the user provides their own targets.
+
 ## Step 1: Name The Island
 
 Prompt:
@@ -52,8 +63,10 @@ Prompt:
 ```markdown
 第一版不要贪。你想先做几个模块？
 
-1. 3 个，先做出来 - 推荐，最快跑通
-2. 5 个，标准 MVP - 功能更完整
+默认会自带两个可删除模块：发帖子、快捷入口。
+
+1. 3 个，先做出来 - 推荐，2 个默认模块 + 1 个你自己选的模块
+2. 5 个，标准 MVP - 2 个默认模块 + 3 个你自己选的模块
 3. 8 个，功能更多但更慢 - 适合已有清晰需求
 ```
 
@@ -64,16 +77,16 @@ Default: `3 个，先做出来`
 Prompt:
 
 ```markdown
-选第一版模块类型。先选 3 个最常用的：
+默认已经有：发帖子、快捷入口。接下来选你还要补的模块：
 
-1. 快捷入口 - 点一下打开链接、文件夹或项目
-2. 资料复制 - 点一下复制一段固定信息
-3. 模板回复 - 用变量生成一段回复
-4. 待办记录 - 快速记一条任务
-5. 状态面板 - 看一个状态或额度
-6. 文件夹入口 - 打开本地目录
-7. 本地脚本 - 运行命令，需要明确风险
-8. AI 提示词 - 复制或打开常用提示词
+1. 资料复制 - 点一下复制一段固定信息
+2. 模板回复 - 用变量生成一段回复
+3. 待办记录 - 快速记一条任务
+4. 状态面板 - 看一个状态或额度
+5. 文件夹入口 - 打开本地目录
+6. 本地脚本 - 运行命令，需要明确风险
+7. AI 提示词 - 复制或打开常用提示词
+8. 更多快捷入口 - 在默认快捷入口外再加一个入口组
 ```
 
 If the user chooses quote-like or commercial modules, rename them to neutral module names such as `项目报价占位模板`, `服务说明卡`, or `客户回复模板`. Never ask for or include real pricing.
@@ -82,18 +95,45 @@ If the user chooses quote-like or commercial modules, rename them to neutral mod
 
 Ask one module at a time.
 
+### 发帖子
+
+Ask:
+
+```markdown
+发帖子是默认模块，可以删除。你想让它打开什么？
+
+1. 发布网页 URL
+2. 发布工具或应用
+3. 内容草稿文件夹
+4. 先保留占位，之后再填
+5. 删除这个默认模块
+```
+
+Fields:
+
+- `title`: `发帖子`
+- `type`: `open-link` or `open-path`
+- `target_type`
+- `target`
+- `removable`: `true`
+- `permission`: `network.open` or `file.open`
+
+Use placeholder targets until the user provides their own target.
+
 ### 快捷入口
 
 Ask:
 
 ```markdown
-这个快捷入口要叫什么？目标是什么？
+快捷入口是默认模块，可以删除。这个快捷入口要放什么？
 
 选目标类型：
 1. 网页 URL
 2. 本地文件夹
 3. 本地文件
 4. 应用或项目
+5. 先保留占位，之后再填
+6. 删除这个默认模块
 ```
 
 Fields:
@@ -101,6 +141,7 @@ Fields:
 - `title`
 - `target_type`
 - `target`
+- `removable`: `true`
 - `permission`: `network.open` or `file.open`
 
 ### 资料复制
@@ -233,8 +274,8 @@ When the user wants speed, choose:
 - name: `工作光岛`
 - module count: 3
 - modules:
-  1. `快捷入口`: open a placeholder project or URL
-  2. `资料复制`: copy generic placeholder contact or service text
+  1. `发帖子`: open a placeholder publishing URL or draft folder, removable
+  2. `快捷入口`: open a placeholder project or URL, removable
   3. `待办记录`: add a local todo
 - storage: local JSON or localStorage
 - platform: Electron/macOS if desktop behavior is needed; browser prototype if the user only needs a demo

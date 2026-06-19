@@ -31,11 +31,12 @@
 1. 取名字：`工作光岛`、`创作者光岛`、`AI 光岛`、`客户跟进光岛`，或自定义。
 2. 选主要用途：打开入口、复制资料、模板回复、待办、状态、脚本。
 3. 选模块数量：先做 3 个、标准 MVP 做 5 个、功能更多做 8 个。
-4. 选模块类型：快捷入口、资料复制、模板回复、待办记录、状态面板、文件夹入口、本地脚本、AI 提示词。
-5. 逐个配置模块：动作、目标、存储方式和权限。
-6. 构建并验证一个可运行的第一版。
+4. 默认自带两个可删除模块：`发帖子` 和 `快捷入口`。
+5. 继续选择补充模块：资料复制、模板回复、待办记录、状态面板、文件夹入口、本地脚本、AI 提示词。
+6. 逐个配置模块：动作、目标、存储方式和权限。
+7. 构建并验证一个可运行的第一版。
 
-默认建议很简单：先做 3 个模块，并且让它们真的跑起来。
+默认建议很简单：先做 3 个模块，并且让它们真的跑起来。每个新光岛默认包含 `发帖子` 和 `快捷入口`，但它们不是锁死的系统模块，用户可以删除、重命名或替换。
 
 ### 隐私边界
 
@@ -133,11 +134,12 @@ The Skill starts with choices instead of blank-page questions:
 1. Name the island: `工作光岛`, `创作者光岛`, `AI 光岛`, `客户跟进光岛`, or a custom name.
 2. Choose the main job: open entries, copy snippets, template replies, todos, status, or scripts.
 3. Choose module count: 3 first, 5 for an MVP, or 8 for a larger version.
-4. Choose module types: quick links, copy cards, template replies, todo capture, status panels, folders, local scripts, or AI prompts.
-5. Configure each module with action, target, storage, and permissions.
-6. Build and verify a runnable first version.
+4. Start with two removable default modules: `发帖子` and `快捷入口`.
+5. Choose additional module types: copy cards, template replies, todo capture, status panels, folders, local scripts, or AI prompts.
+6. Configure each module with action, target, storage, and permissions.
+7. Build and verify a runnable first version.
 
-The default recommendation is simple: build 3 modules first and make them work.
+The default recommendation is simple: build 3 modules first and make them work. Every new Luma Island includes `发帖子` and `快捷入口` by default, but they are not locked system modules; users can delete, rename, or replace them.
 
 ### Privacy Boundary
 

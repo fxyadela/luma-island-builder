@@ -60,6 +60,13 @@ Minimum startup choices:
 5. Per-module config: name, action, target content, storage, and permissions
 6. MVP confirmation: module table, permission table, implementation steps, run command, acceptance checks
 
+Default starter modules:
+
+- Every new Luma Island should include `发帖子` and `快捷入口` by default.
+- Treat them as default starter cards, not locked system cards.
+- Mark both as removable. The user may delete, rename, reorder, or replace them during setup.
+- Do not hard-code a real publishing platform, account, workspace, or private URL. Use placeholders until the user provides their own target.
+
 ## Reference Loading
 
 Load only the reference needed for the current step:
@@ -72,6 +79,7 @@ Load only the reference needed for the current step:
 ## Product Rules
 
 - Keep the waterline small: surface only 3-6 high-frequency actions.
+- Include `发帖子` and `快捷入口` as the default starter actions for new islands, while allowing deletion.
 - Keep configuration underwater: variables, templates, permissions, and advanced settings belong in config screens or files.
 - Prefer local-first storage for private snippets, variables, and module config.
 - Do not add plugin markets, agent workflows, cloud sync, or AI automation before the basic actions work.

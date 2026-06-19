@@ -26,6 +26,13 @@ It is not a decoration project. Personality and visual style may help users like
 
 ## MVP Card Types
 
+Every new island includes two removable starter cards by default:
+
+- `发帖子`: a generic publishing entry. It opens a user-configured publishing URL, app, or draft folder.
+- `快捷入口`: a generic quick-entry card. It opens a user-configured URL, folder, app, or project.
+
+These defaults exist to make the first island useful immediately. They must remain removable and should use placeholders until the user provides their own targets.
+
 | Card type | User value | Required config |
 | --- | --- | --- |
 | 快捷入口 | Open a web page, app, folder, project, or document | title, URL/path, icon |
@@ -39,9 +46,9 @@ It is not a decoration project. Personality and visual style may help users like
 
 Default to three cards:
 
-1. one open action
-2. one copy/template action
-3. one record/status action
+1. `发帖子`
+2. `快捷入口`
+3. one user-selected record, copy, template, status, folder, script, or AI prompt action
 
 ## Anti-Patterns
 
