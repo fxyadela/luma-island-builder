@@ -1,6 +1,6 @@
 # 光岛 / Luma Island Builder
 
-**光岛的使命：一触即发。**  
+**光岛的使命：一键直达。**  
 **Mission: One touch. Work starts.**
 
 - [中文版本](#中文版本)
