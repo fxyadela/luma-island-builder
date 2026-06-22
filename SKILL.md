@@ -59,8 +59,9 @@ Minimum startup choices:
 2. Use case: `打开入口` / `复制资料` / `模板回复` / `管理待办` / `查看状态` / `运行脚本`
 3. Module count: `3 个，先做出来` / `5 个，标准 MVP` / `8 个，功能更多但更慢`
 4. Module type: `快捷入口` / `资料复制` / `模板回复` / `待办记录` / `状态面板` / `文件夹入口` / `本地脚本` / `AI 提示词`
-5. Per-module config: name, action, target content, storage, and permissions
-6. MVP confirmation: module table, permission table, implementation steps, run command, acceptance checks
+5. Collapsed display style: `太极额度` / `冰箱门` / `液态胶囊` / `自定义描述或图片`
+6. Per-module config: name, action, target content, storage, and permissions
+7. MVP confirmation: module table, permission table, implementation steps, run command, acceptance checks
 
 Default starter modules:
 
@@ -76,6 +77,7 @@ Load only the reference needed for the current step:
 - `references/guided-onboarding.md`: Use for the startup conversation, choices, and answer-to-spec compression.
 - `references/luma-island-product-model.md`: Use when judging scope, module fit, MVP size, or product anti-patterns.
 - `references/card-and-pack-model.md`: Use when defining card schemas, template packs, variables, permissions, local config, or seed data.
+- `references/collapsed-display-and-styles.md`: Use when defining collapsed-state quota fallback, nickname display, or visual style options.
 - `references/electron-macos-playbook.md`: Use when implementing or adapting an Electron/macOS desktop island.
 
 ## Product Rules
@@ -83,6 +85,8 @@ Load only the reference needed for the current step:
 - Keep the waterline small: surface only 3-6 high-frequency actions.
 - Use `一触即发` as the product test: the island should let the user touch once and start the task.
 - Include `发帖子` and `快捷入口` as the default starter actions for new islands, while allowing deletion. `发帖子` must default to `https://fawen.fun`.
+- If Codex, Claude Code, or other quota/status data is unavailable, show the configured nickname, user display name, or island name instead of broken quota placeholders.
+- Offer three built-in collapsed visual styles by default: `太极额度`, `冰箱门`, and `液态胶囊`. If none fit, ask for a visual description or reference image and design from that.
 - Keep configuration underwater: variables, templates, permissions, and advanced settings belong in config screens or files.
 - Prefer local-first storage for private snippets, variables, and module config.
 - Do not add plugin markets, agent workflows, cloud sync, or AI automation before the basic actions work.

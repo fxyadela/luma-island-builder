@@ -206,6 +206,37 @@ Starter pack options:
 - `Customer Follow-up Starter`: generic customer reply templates and todos
 - `Student Research Starter`: paper links, notes, reading status
 
+## Collapsed Display Config
+
+The island's collapsed state should be configurable. Do not assume every user has Codex, Claude Code, or any quota source connected.
+
+```json
+{
+  "collapsedDisplay": {
+    "style": "taiji-quota",
+    "fallbackLabel": "{{nickname}}",
+    "quotaSources": ["codex", "claude-code"],
+    "missingDataBehavior": "show-fallback-label"
+  }
+}
+```
+
+Supported `style` values:
+
+- `taiji-quota`: paired quota/status visual; fall back to nickname or island name when data is absent
+- `fridge-door`: rounded door object with handle/opening metaphor
+- `liquid-capsule`: vertical capsule with liquid layer, glow, or center mark
+- `custom`: user-provided visual description or reference image translated into implementation specs
+
+Fallback order for missing quota/status data:
+
+1. valid quota or status data
+2. configured source nickname
+3. user nickname or team display name
+4. island name
+
+Never seed real account names, private paths, or quota screenshots in committed config. Use placeholders such as `{{nickname}}`, `{{island_name}}`, and `{{quota_source_label}}`.
+
 ## Permission Vocabulary
 
 Use explicit permissions:

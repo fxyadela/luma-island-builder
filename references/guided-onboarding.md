@@ -91,7 +91,36 @@ Prompt:
 
 If the user chooses quote-like or commercial modules, rename them to neutral module names such as `项目报价占位模板`, `服务说明卡`, or `客户回复模板`. Never ask for or include real pricing.
 
-## Step 5: Configure Each Module
+## Step 5: Choose Collapsed Display Style
+
+Prompt:
+
+```markdown
+这个岛默认不展开时长什么样？先选一个内置方向。
+
+1. 太极额度 - 适合显示 Codex、Claude Code 或其他额度/状态；没有数据时显示昵称，不显示空百分比
+2. 冰箱门 - 像一个可打开的小门，适合通用工作入口和创作者入口
+3. 液态胶囊 - 竖向胶囊、液态层、中心符号，适合 AI 或状态感更强的岛
+4. 自定义描述 - 你描述形状、颜色、材质和展开方式
+5. 提供参考图 - 你给图，我提炼外形、材质、颜色、动效和兜底显示
+```
+
+Default:
+
+- If the user is tracking quota or status, choose `太极额度`.
+- If the user is mostly opening links, copying snippets, or posting, choose `冰箱门`.
+
+Quota/status fallback:
+
+- If Codex or Claude Code data exists, display the real data.
+- If one source is missing, keep the valid source and use the missing source's configured nickname or neutral label.
+- If both Codex and Claude Code are absent, do not render a two-provider quota layout.
+- Show the user's nickname, display name, team name, or island name instead.
+- Never show `NaN`, fake `0%`, empty arcs, or fake reset times.
+
+When the user provides a reference image, describe and implement the style from the image. Do not embed temporary clipboard images or private local image paths into public examples unless the user explicitly asks.
+
+## Step 6: Configure Each Module
 
 Ask one module at a time.
 
@@ -240,7 +269,7 @@ Ask:
 
 Require explicit confirmation before implementation.
 
-## Step 6: Generate MVP Spec
+## Step 7: Generate MVP Spec
 
 After choices are known, output:
 

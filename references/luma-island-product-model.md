@@ -30,7 +30,8 @@ It is not a decoration project. Personality and visual style may help users like
 3. Start with cards, not plugins.
 4. Store private information locally by default.
 5. Let non-technical users configure through choices, forms, and templates.
-6. Finish a working MVP before discussing ecosystem, sync, or AI agents.
+6. Make the collapsed state intentional even when quota or status data is missing.
+7. Finish a working MVP before discussing ecosystem, sync, or AI agents.
 
 ## MVP Card Types
 
@@ -76,7 +77,8 @@ A first version passes if the user can:
 2. open it
 3. click each configured module
 4. get a real result from each click
-5. change module config without editing private code
-6. understand which permissions are used
+5. see a sane collapsed fallback label when quota or status sources are missing
+6. change module config without editing private code
+7. understand which permissions are used
 
 It does not need account systems, cloud sync, polished onboarding screens, a marketplace, or a complete settings center.

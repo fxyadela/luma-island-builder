@@ -17,6 +17,7 @@ Identify:
 
 - where the always-on-top window is created
 - how collapsed/expanded state is rendered
+- how collapsed quota/status data falls back to nickname, display name, or island name
 - how renderer actions call native APIs
 - where local JSON config belongs
 - how to run the app locally
@@ -44,6 +45,7 @@ renderer
 
 local storage
 ├── modules.json
+├── collapsed-display.json
 ├── variables.json
 └── todos.json / stats.json
 ```
@@ -109,12 +111,13 @@ IPC handlers should:
 ## MVP Implementation Order
 
 1. Render static collapsed and expanded island.
-2. Load modules from local placeholder JSON.
-3. Implement `open-url` or `open-path`.
-4. Implement `copy-template`.
-5. Implement todo capture or status panel.
-6. Add minimal config editing only after actions work.
-7. Run and test every module.
+2. Add collapsed display config with a nickname/island-name fallback for missing quota or status data.
+3. Load modules from local placeholder JSON.
+4. Implement `open-url` or `open-path`.
+5. Implement `copy-template`.
+6. Implement todo capture or status panel.
+7. Add minimal config editing only after actions work.
+8. Run and test every module.
 
 Do not start with animations, themes, AI agents, sync, or marketplace logic.
 
@@ -146,6 +149,7 @@ After implementation, verify:
 - app starts without terminal errors
 - island appears
 - compact and expanded states work
+- compact state shows a sane fallback label when Codex, Claude Code, or other quota sources are unavailable
 - each module performs its action
 - clipboard action writes only after click
 - local config survives restart when persistence is implemented

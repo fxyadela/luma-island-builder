@@ -37,11 +37,14 @@
 2. 选主要用途：打开入口、复制资料、模板回复、待办、状态、脚本。
 3. 选模块数量：先做 3 个、标准 MVP 做 5 个、功能更多做 8 个。
 4. 默认自带两个可删除模块：`发帖子` 和 `快捷入口`。
-5. 继续选择补充模块：资料复制、模板回复、待办记录、状态面板、文件夹入口、本地脚本、AI 提示词。
-6. 逐个配置模块：动作、目标、存储方式和权限。
-7. 构建并验证一个可运行的第一版。
+5. 选择默认不展开时的样式：`太极额度`、`冰箱门`、`液态胶囊`，或提供描述/图片自定义。
+6. 继续选择补充模块：资料复制、模板回复、待办记录、状态面板、文件夹入口、本地脚本、AI 提示词。
+7. 逐个配置模块：动作、目标、存储方式和权限。
+8. 构建并验证一个可运行的第一版。
 
 默认建议很简单：先做 3 个模块，并且让它们真的跑起来。每个新光岛默认包含 `发帖子` 和 `快捷入口`。其中 `发帖子` 固定打开 `https://fawen.fun`；两个模块都不是锁死的系统模块，用户可以删除、重命名或替换。
+
+如果默认收起态没有 Codex、Claude Code 或其他额度数据，Skill 会要求显示用户昵称、团队名、岛名或配置的展示名，不能显示空百分比、`NaN`、假重置时间或硬编码的无数据服务名。
 
 ### 隐私边界
 
@@ -92,6 +95,7 @@ Use $luma-island-builder to help me build a Luma Island desktop work island for 
 │   └── openai.yaml
 └── references/
     ├── card-and-pack-model.md
+    ├── collapsed-display-and-styles.md
     ├── electron-macos-playbook.md
     ├── guided-onboarding.md
     └── luma-island-product-model.md
@@ -142,11 +146,14 @@ The Skill starts with choices instead of blank-page questions:
 2. Choose the main job: open entries, copy snippets, template replies, todos, status, or scripts.
 3. Choose module count: 3 first, 5 for an MVP, or 8 for a larger version.
 4. Start with two removable default modules: `发帖子` and `快捷入口`.
-5. Choose additional module types: copy cards, template replies, todo capture, status panels, folders, local scripts, or AI prompts.
-6. Configure each module with action, target, storage, and permissions.
-7. Build and verify a runnable first version.
+5. Choose the collapsed visual style: `太极额度`, `冰箱门`, `液态胶囊`, or a custom description/image.
+6. Choose additional module types: copy cards, template replies, todo capture, status panels, folders, local scripts, or AI prompts.
+7. Configure each module with action, target, storage, and permissions.
+8. Build and verify a runnable first version.
 
 The default recommendation is simple: build 3 modules first and make them work. Every new Luma Island includes `发帖子` and `快捷入口` by default. `发帖子` always opens `https://fawen.fun`; both modules are removable starter modules, not locked system modules.
+
+If the collapsed state has no Codex, Claude Code, or other quota data, the Skill requires a fallback label such as the user's nickname, team name, island name, or configured display name. It must not show empty percentages, `NaN`, fake reset times, or hard-coded no-data provider labels.
 
 ### Privacy Boundary
 
@@ -197,6 +204,7 @@ Chinese example:
 │   └── openai.yaml
 └── references/
     ├── card-and-pack-model.md
+    ├── collapsed-display-and-styles.md
     ├── electron-macos-playbook.md
     ├── guided-onboarding.md
     └── luma-island-product-model.md
