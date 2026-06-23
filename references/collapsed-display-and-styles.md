@@ -1,104 +1,109 @@
-# Collapsed Display And Styles
+# 收起态显示与样式
 
-Use this reference when defining the island's collapsed state, quota/status display, nickname fallback, or built-in visual style options.
+当需要定义光岛的收起态、额度/状态显示、暂无用量兜底、三种默认视觉样式时，读取本文件。
 
-The collapsed state is the user's first contact with the island. It must be useful even when the user does not have quota data, status integrations, or developer tools connected.
+收起态是用户第一眼看到的东西。它不能只是装饰，也不能在数据缺失时显示奇怪符号。它必须在没有完整额度数据、状态集成或开发工具连接时，依然看起来合理。
 
-## Data Fallback Rule
+## 数据兜底规则
 
-Never render a broken quota display.
+不要渲染坏掉的额度显示。
 
-If Codex, Claude Code, or any other status source is missing, invalid, unauthorized, or empty, do not show:
+禁止显示：
 
-- `NaN`, `undefined`, `null`, or empty labels
-- fake `0%` usage
-- empty progress arcs
-- fake reset times
-- hard-coded Codex or Claude Code labels for users who do not use those tools
+- `NaN`、`undefined`、`null`
+- 空标签或空百分比
+- `--` 这类像异常状态的符号
+- 假的 `0%` 用量
+- 空进度弧
+- 假重置时间
+- 与当前配置无关的账号名或标签
 
-Fallback order:
+推荐顺序：
 
-1. Show valid quota or status data if it exists.
-2. If a source exists but its data is unavailable, show that source's configured nickname.
-3. If no quota/status sources are configured, show the user's nickname, display name, or team name.
-4. If there is no nickname, show the island name.
+1. 有真实额度或状态数据时，显示真实数据。
+2. 某个额度源返回 `暂无用量` 时，按“未消耗”处理，显示 `100%`，进度弧按满额显示。
+3. 某个额度源未授权、路径不存在或读取失败时，显示安全的中性占位，不显示假百分比和假重置时间。
+4. 完全没有配置额度/状态源时，不要硬塞 Codex 或 Claude Code 布局；改用该样式自己的默认标识、岛名或用户配置的短标签。
 
-Partial data is allowed. For example, if Codex has data and Claude Code does not, show the Codex value and use the configured nickname or neutral label for the missing side. If both are absent, do not show a two-provider quota layout; show the fallback label inside the chosen collapsed visual style.
+局部数据允许存在。例如 Codex 有数据、Claude Code 暂无用量，则 Codex 显示真实剩余百分比，Claude Code 显示 `100%`。如果某一侧完全读不到，不要用 `--` 顶上；要么显示可解释的中性占位，要么引导用户配置该数据源。
 
-Recommended config fields:
+推荐配置字段：
 
 ```json
 {
   "collapsedDisplay": {
     "style": "taiji-quota",
-    "fallbackLabel": "{{nickname}}",
     "quotaSources": ["codex", "claude-code"],
-    "missingDataBehavior": "show-fallback-label"
+    "noUsageBehavior": "show-100-percent",
+    "missingDataBehavior": "show-neutral-placeholder",
+    "fallbackLabel": "{{island_name}}"
   }
 }
 ```
 
-## Built-In Style Options
+## 内置样式选项
 
-Offer these three styles during onboarding before asking for custom design.
+启动引导时先提供这三种样式，再问用户是否自定义。
 
 ### 1. 太极额度 / `taiji-quota`
 
-Use when the user wants a quota/status feeling.
+适合想显示额度、状态或双源信息的用户。
 
-- Shape: paired circle, ring, or balanced two-side mark.
-- Best for: Codex/Claude Code quota, dual-source status, AI work dashboards.
-- Normal state: show two quota/status values when valid data exists.
-- Fallback state: show the fallback label in the center or primary label position.
-- Avoid: empty arcs, fake percentages, or provider labels without data.
+- 形状：成对圆形、环形、太极式左右平衡标记。
+- 适合：Codex/Claude Code 额度、双来源状态、AI 工作面板。
+- 正常状态：显示两个额度/状态值。
+- 暂无用量：显示 `100%`，不要显示 `--` 或昵称。
+- 读取失败：不要伪造数字；显示中性占位或提示配置数据源。
+- 避免：数字重叠、空进度弧、假百分比、假重置时间。
 
 ### 2. 冰箱门 / `fridge-door`
 
-Use when the user wants a friendly object that feels like opening a work space.
+适合想要一个友好物件感入口的用户。
 
-- Shape: rounded square or squircle.
-- Material: light, frosted, soft plastic, or subtle metallic surface.
-- Detail: a small handle or door edge that implies "open".
-- Best for: general work islands, creator islands, link hubs, simple task launchers.
-- Fallback state: show the nickname, island name, or short label on the door surface.
-- Expanded motion: the door can open, slide, or reveal the module list.
+- 形状：圆角方块或 squircle。
+- 材质：浅色、磨砂、软塑料或轻微金属质感。
+- 细节：一个小把手或门缝，让用户一眼知道可以“打开”。
+- 适合：通用工作岛、创作者岛、链接中心、简单任务启动器。
+- 兜底状态：门面上显示岛名、短标签或一个简单图标。
+- 展开动效：门可以打开、滑开或露出模块列表。
 
 ### 3. 液态胶囊 / `liquid-capsule`
 
-Use when the user wants a more expressive and ambient style.
+适合更有氛围、更像 AI 工具或状态容器的用户。
 
-- Shape: vertical capsule or pill.
-- Material: dark upper surface plus translucent liquid, gradient, or glow in the lower half.
-- Detail: a simple center mark, icon, or four-symbol motif.
-- Best for: AI islands, status islands, moodier creator tools, compact launchers.
-- Fallback state: show the fallback label or a simple symbol above the liquid layer.
-- Expanded motion: the liquid can rise, glow, or stretch into the module surface.
+- 形状：竖向胶囊或药丸。
+- 材质：深色上半区 + 半透明液体、渐变或下半区发光。
+- 细节：中心可以放一个简单标记、图标或四符号图案。
+- 适合：AI 光岛、状态岛、创作者工具、紧凑启动器。
+- 兜底状态：显示简单符号、岛名短标签或配置过的标记。
+- 展开动效：液体可上升、发光或拉伸成模块面板。
 
-## Custom Style Intake
+## 自定义样式收集
 
-If none of the built-in styles fit, ask the user for one of these:
+如果三种内置样式都不适合，向用户索取以下任一信息：
 
-1. A short visual description.
-2. A reference image.
-3. A rough sketch or screenshot.
+1. 一段简短视觉描述。
+2. 一张参考图。
+3. 草图或截图。
 
-Then extract:
+然后提取：
 
-- outer shape
-- material and texture
-- color palette
-- text or icon placement
-- collapsed-to-expanded motion
-- fallback label behavior
+- 外轮廓
+- 材质和纹理
+- 色彩倾向
+- 文字或图标摆放
+- 收起到展开的动效
+- 数据缺失时的兜底行为
 
-Do not embed temporary clipboard images, private screenshots, or local reference paths into a public repository unless the user explicitly asks. Describe the style in neutral words and keep implementation assets generic or user-provided.
+不要把临时剪贴板图片或机器相关临时素材写进公开仓库，除非用户明确要求。公开文档里只用中性描述，资产应保持通用或由用户自行提供。
 
-## Acceptance Checks
+## 验收标准
 
-A collapsed display passes if:
+一个合格的收起态必须满足：
 
-- it looks intentional with no quota/status integrations configured
-- it shows a nickname, island name, or configured fallback label when data is missing
-- it does not expose private account names, local paths, tokens, or pricing data
-- it still gives the user a clear way to expand the island
-- the chosen visual style is recorded in local config, not scattered through hard-coded UI branches
+- 没有额度/状态集成时，看起来依然是有设计意图的入口
+- `暂无用量` 显示为 `100%`，不显示 `--`
+- 不显示未配置的账号名或调试信息
+- 用户能清楚知道如何展开光岛
+- 视觉样式记录在本地配置里，而不是散落在多个硬编码分支里
+- 数字、标签、图标在小尺寸下不重叠、不挤压、不溢出

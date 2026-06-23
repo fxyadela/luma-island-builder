@@ -17,7 +17,7 @@ Identify:
 
 - where the always-on-top window is created
 - how collapsed/expanded state is rendered
-- how collapsed quota/status data falls back to nickname, display name, or island name
+- how collapsed quota/status data handles no-usage as `100%` and unreadable sources as neutral placeholders
 - how renderer actions call native APIs
 - where local JSON config belongs
 - how to run the app locally
@@ -111,7 +111,7 @@ IPC handlers should:
 ## MVP Implementation Order
 
 1. Render static collapsed and expanded island.
-2. Add collapsed display config with a nickname/island-name fallback for missing quota or status data.
+2. Add collapsed display config with `暂无用量 -> 100%` and a neutral placeholder for unreadable quota/status data.
 3. Load modules from local placeholder JSON.
 4. Implement `open-url` or `open-path`.
 5. Implement `copy-template`.
@@ -149,11 +149,12 @@ After implementation, verify:
 - app starts without terminal errors
 - island appears
 - compact and expanded states work
-- compact state shows a sane fallback label when Codex, Claude Code, or other quota sources are unavailable
+- compact state shows `100%` when Codex, Claude Code, or another quota source reports no usage
+- compact state avoids `--`, `NaN`, empty arcs, and fake reset times when quota sources are unavailable
 - each module performs its action
 - clipboard action writes only after click
 - local config survives restart when persistence is implemented
-- private values are not committed to source
+- user-provided values are not committed to source
 - permissions are documented in the module table
 
 For packaged macOS apps, source edits are not enough. If the user expects the installed app to change, rebuild/sync the installed bundle and restart it before claiming the visible app is updated.
@@ -163,6 +164,6 @@ For packaged macOS apps, source edits are not enough. If the user expects the in
 - Do not read clipboard by default.
 - Do not run arbitrary scripts without explicit confirmation.
 - Do not fetch remote data until a status card requires it.
-- Do not store private variables in demo fixtures.
-- Do not log private copied text.
+- Do not store user-provided variables in demo fixtures.
+- Do not log copied text by default.
 - Do not make the island unclickable or impossible to quit.

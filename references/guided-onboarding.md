@@ -20,7 +20,7 @@ Every new 光岛 starts with two default modules:
 
 These are starter modules, not locked system modules. Set `removable: true` for both. The user can delete, rename, reorder, or replace them during setup.
 
-For `发帖子`, use the fixed target `https://fawen.fun`. Do not add account-specific paths, tokens, or private publishing targets. Other modules should still use placeholders until the user provides targets.
+For `发帖子`, use the fixed target `https://fawen.fun`. Keep this target fixed during initial setup. Other modules should use placeholders until the user provides targets.
 
 ## Step 1: Name The Island
 
@@ -89,7 +89,7 @@ Prompt:
 8. 更多快捷入口 - 在默认快捷入口外再加一个入口组
 ```
 
-If the user chooses quote-like or commercial modules, rename them to neutral module names such as `项目报价占位模板`, `服务说明卡`, or `客户回复模板`. Never ask for or include real pricing.
+If the user chooses business-facing modules, use neutral module names such as `项目说明占位模板`, `服务说明卡`, or `回复模板`. Use placeholder values in examples.
 
 ## Step 5: Choose Collapsed Display Style
 
@@ -98,7 +98,7 @@ Prompt:
 ```markdown
 这个岛默认不展开时长什么样？先选一个内置方向。
 
-1. 太极额度 - 适合显示 Codex、Claude Code 或其他额度/状态；没有数据时显示昵称，不显示空百分比
+1. 太极额度 - 适合显示 Codex、Claude Code 或其他额度/状态；暂无用量时显示 100%，不要显示 `--`
 2. 冰箱门 - 像一个可打开的小门，适合通用工作入口和创作者入口
 3. 液态胶囊 - 竖向胶囊、液态层、中心符号，适合 AI 或状态感更强的岛
 4. 自定义描述 - 你描述形状、颜色、材质和展开方式
@@ -113,12 +113,12 @@ Default:
 Quota/status fallback:
 
 - If Codex or Claude Code data exists, display the real data.
-- If one source is missing, keep the valid source and use the missing source's configured nickname or neutral label.
-- If both Codex and Claude Code are absent, do not render a two-provider quota layout.
-- Show the user's nickname, display name, team name, or island name instead.
-- Never show `NaN`, fake `0%`, empty arcs, or fake reset times.
+- If one source returns `暂无用量`, show `100%` and render a full quota arc for that source.
+- If one source is missing because it is unauthorized, unreadable, or unconfigured, keep the valid source and show a neutral placeholder for the missing source.
+- If both Codex and Claude Code are absent, do not render fake quota values; guide the user to configure sources or use the chosen style's neutral short label.
+- Never show `NaN`, `--`, fake `0%`, empty arcs, or fake reset times.
 
-When the user provides a reference image, describe and implement the style from the image. Do not embed temporary clipboard images or private local image paths into public examples unless the user explicitly asks.
+When the user provides a reference image, describe and implement the style from the image. Do not embed temporary clipboard images or machine-specific local paths into public examples unless the user explicitly asks.
 
 ## Step 6: Configure Each Module
 
@@ -178,7 +178,7 @@ Fields:
 Ask:
 
 ```markdown
-这张资料复制卡先用占位内容，不填真实隐私。你要它复制哪类信息？
+这张资料复制卡先用占位内容。你要它复制哪类信息？
 
 1. 个人介绍占位
 2. 项目说明占位
@@ -191,16 +191,16 @@ Fields:
 
 - `title`
 - `template`
-- `sensitivity`: `public`, `internal`, or `private`
+- `visibility`: `demo`, `local`, or `user-provided`
 - `permission`: `clipboard.write`
 
 Use placeholders only:
 
 ```text
 {{service_name}}
-{{price_placeholder}}
 {{contact_email}}
 {{delivery_notes}}
+{{placeholder_value}}
 ```
 
 ### 模板回复
@@ -281,7 +281,7 @@ After choices are known, output:
 **本地配置**
 - modules stored in ...
 - variables stored in ...
-- private data policy ...
+- placeholder data rule ...
 
 **实现路线**
 1. ...

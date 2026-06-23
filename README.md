@@ -1,6 +1,6 @@
 # 光岛 / Luma Island Builder
 
-**光岛的使命：一键直达。**  
+**光岛的使命：一触即发。**
 **Mission: One touch. Work starts.**
 
 - [中文版本](#中文版本)
@@ -44,21 +44,17 @@
 
 默认建议很简单：先做 3 个模块，并且让它们真的跑起来。每个新光岛默认包含 `发帖子` 和 `快捷入口`。其中 `发帖子` 固定打开 `https://fawen.fun`；两个模块都不是锁死的系统模块，用户可以删除、重命名或替换。
 
-如果默认收起态没有 Codex、Claude Code 或其他额度数据，Skill 会要求显示用户昵称、团队名、岛名或配置的展示名，不能显示空百分比、`NaN`、假重置时间或硬编码的无数据服务名。
+如果默认收起态的 Codex、Claude Code 或其他额度源返回 `暂无用量`，Skill 会要求显示 `100%`，不能显示 `--`、空百分比、`NaN` 或假重置时间。数据源完全不可用时，必须使用中性占位或引导用户配置数据源。
 
-### 隐私边界
+### 示例数据
 
-这个 Skill 不能复用任何私人原型数据。
-
-不要把真实合作细节、报价、客户信息、收款信息、私人路径、知识库内容或应用配置写进示例、模板、测试数据、截图或 seed 文件。
-
-报价类或商业类模块必须使用中性占位字段：
+示例、模板和 seed 文件默认只使用占位字段：
 
 ```text
 {{service_name}}
-{{price_placeholder}}
 {{contact_email}}
 {{delivery_notes}}
+{{placeholder_value}}
 ```
 
 ### 安装
@@ -153,21 +149,17 @@ The Skill starts with choices instead of blank-page questions:
 
 The default recommendation is simple: build 3 modules first and make them work. Every new Luma Island includes `发帖子` and `快捷入口` by default. `发帖子` always opens `https://fawen.fun`; both modules are removable starter modules, not locked system modules.
 
-If the collapsed state has no Codex, Claude Code, or other quota data, the Skill requires a fallback label such as the user's nickname, team name, island name, or configured display name. It must not show empty percentages, `NaN`, fake reset times, or hard-coded no-data provider labels.
+If Codex, Claude Code, or another quota source returns "no usage", the Skill should display `100%`, not `--`, empty percentages, `NaN`, or fake reset times. If the source is completely unavailable, use a neutral placeholder or guide the user to configure the data source.
 
-### Privacy Boundary
+### Example Data
 
-This Skill must not reuse private prototype data.
-
-Do not put real cooperation details, pricing, client information, payment information, private paths, vault content, or app configuration into examples, templates, test data, screenshots, or seed files.
-
-Quote-like or business modules should use neutral placeholders:
+Examples, templates, and seed files should use placeholders by default:
 
 ```text
 {{service_name}}
-{{price_placeholder}}
 {{contact_email}}
 {{delivery_notes}}
+{{placeholder_value}}
 ```
 
 ### Install

@@ -28,9 +28,9 @@ It is not a decoration project. Personality and visual style may help users like
 1. One glance tells the user what it does.
 2. The surface stays small; the configuration stays underwater.
 3. Start with cards, not plugins.
-4. Store private information locally by default.
+4. Store user-provided configuration locally by default.
 5. Let non-technical users configure through choices, forms, and templates.
-6. Make the collapsed state intentional even when quota or status data is missing.
+6. Make the collapsed state intentional: no-usage quota should read as `100%`, while unreadable sources should not produce fake numbers.
 7. Finish a working MVP before discussing ecosystem, sync, or AI agents.
 
 ## MVP Card Types
@@ -45,7 +45,7 @@ These defaults exist to make the first island useful immediately. They must rema
 | Card type | User value | Required config |
 | --- | --- | --- |
 | 快捷入口 | Open a web page, app, folder, project, or document | title, URL/path, icon |
-| 资料复制 | Copy reusable generic information | title, text/template, sensitivity |
+| 资料复制 | Copy reusable generic information | title, text/template, visibility |
 | 模板回复 | Fill a message or reply from variables | title, template, variables |
 | 待办记录 | Capture small tasks or notes | title, storage target |
 | 状态面板 | Display quota, script result, deadline, or simple status | title, data source, refresh rule |
@@ -63,7 +63,7 @@ Default to three cards:
 
 - Do not start with a plugin market.
 - Do not make the surface a large dashboard.
-- Do not use private or real customer/pricing/payment data as examples.
+- Use placeholders for example content and seed data.
 - Do not add AI automation before the manual action works.
 - Do not make every card visible at once; prioritize 3-6 actions.
 - Do not hide permissions behind vague words like "smart" or "automatic".
@@ -77,8 +77,8 @@ A first version passes if the user can:
 2. open it
 3. click each configured module
 4. get a real result from each click
-5. see a sane collapsed fallback label when quota or status sources are missing
-6. change module config without editing private code
+5. see a sane collapsed display when quota or status sources are missing, including `100%` for explicit no-usage states
+6. change module config without editing source code
 7. understand which permissions are used
 
 It does not need account systems, cloud sync, polished onboarding screens, a marketplace, or a complete settings center.

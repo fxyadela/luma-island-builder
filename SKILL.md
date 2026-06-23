@@ -1,119 +1,105 @@
 ---
 name: luma-island-builder
-description: "Guide users through building a 光岛 / Luma Island desktop work island, floating island, or Island-style desktop task launcher. Use when the user wants to create, prototype, or implement a small desktop island for quick links, copy snippets, template replies, todos, status panels, local scripts, AI prompts, or other high-frequency actions. Prefer this for requests mentioning 光岛, Luma Island, 桌面工作岛, Island, desktop island, desktop companion as a productivity tool, task shortcut hub, quick execution panel, or turning a personal desktop assistant idea into a runnable MVP. Do not use it for purely decorative desktop pets or private data extraction."
+description: "引导用户通过对话创建、原型化或实现一个光岛 / Luma Island：桌面工作岛、浮岛、Island 风格任务入口或桌面快捷执行面板。适用于快速链接、资料复制、模板回复、待办、状态面板、本地脚本、AI 提示词等高频动作。用户提到光岛、Luma Island、桌面工作岛、Island、desktop island、生产力桌面助手、快捷任务中心，或想把个人桌面助手想法做成可运行 MVP 时使用。不要用于纯装饰桌宠。"
 ---
 
-# Luma Island Builder
+# 光岛 Builder
 
-Mission: `一触即发` / `One touch. Work starts.`
+使命：`一触即发` / `One touch. Work starts.`
 
-Help the user build a runnable 光岛 / Luma Island through conversation. The goal is not to admire the idea, make a decorative pet, or produce a static product essay. The goal is to guide the user step by step until they have a small desktop island that can actually open, copy, record, run, or display something useful.
+通过对话帮助用户做出一个可运行的光岛 / Luma Island。目标不是欣赏想法、做装饰桌宠，也不是写静态产品方案。目标是一步步引导用户做出一个小型桌面岛，让它真的能打开、复制、记录、运行或显示有用信息。
 
-Core judgment: a work island is an outer task layer. It should reduce the cost of finding apps, links, snippets, folders, scripts, and status. If the request drifts toward decoration, steer it back to high-frequency actions.
+核心判断：工作岛是任务的外层入口。它应该降低用户寻找应用、链接、资料片段、文件夹、脚本和状态的成本。如果需求滑向纯装饰，必须拉回到高频动作。
 
-## Hard Privacy Boundary
+## 默认工作流
 
-Never copy, infer, reveal, or reuse private content from the source prototype, the current user's files, or any local app configuration.
+1. 先判断真实需求。确认用户要的是生产力工作岛，不是装饰桌宠。
+2. 进入启动引导。每一步先给选项，再允许自定义。
+3. 把用户回答收束成最小光岛规格：名称、使用人群、模块、动作、权限、存储和验收标准。
+4. 选择实现路线：
+   - 已有仓库：先读项目结构再改。
+   - 没有仓库：优先引导创建最小 Electron/Vite app。
+   - 用户指定非 Electron：可以适配技术栈，但保留同一套“岛 + 模块”结构。
+5. 先做 3-5 个模块的可运行 MVP，再加高级功能。
+6. 运行应用并逐个验证模块是否真的完成动作。
 
-Treat these as forbidden for examples, templates, defaults, test data, and documentation:
+用户要求“做出来”时，不要停在计划。除非用户明确只要方案，否则必须继续推进到可运行第一版。
 
-- real cooperation or pricing details
-- client, partner, or customer information
-- payment, invoice, or collection information
-- private homepage, account, publishing, or operations data
-- private local paths, vault content, app userData, or desktop companion configuration
+## 启动引导
 
-Use only generic module types and placeholders. For any quote-like module, use neutral names such as `资料复制卡`, `客户回复模板`, `服务说明卡`, or `项目报价占位模板`, and placeholder fields such as `{{service_name}}`, `{{price_placeholder}}`, `{{contact_email}}`, and `{{delivery_notes}}`.
+模糊需求或新项目，必须先使用 `references/guided-onboarding.md` 的引导流程。
 
-If repository exploration exposes private-looking data, use it only to understand structure. Do not paste it into the answer, the generated skill output, examples, fixtures, tests, screenshots, or seed configuration.
+规则：
 
-## Default Workflow
+- 每轮最多问 1-3 个短问题。
+- 先给选项。只有用户选择 `自定义`，或选项明显不适合时，才让用户自由输入。
+- 用户不确定模块数量时，默认推荐 `3 个，先做出来`。
+- 用户每回答一步，都要锁定已选内容，再问下一步。
+- 模块选择明确后，输出第一版 MVP 表格并进入实现。
 
-1. Judge the real task first. Confirm whether the user needs a productivity island, not a decorative pet.
-2. Run guided onboarding. Ask step-by-step questions with options before free-form input.
-3. Convert answers into a minimal island spec: name, audience, modules, actions, permissions, storage, and success criteria.
-4. Choose implementation route:
-   - Existing repo: inspect the project before proposing edits.
-   - No repo: guide a minimal Electron/Vite app first.
-   - Non-Electron preference: adapt the product model, but keep the same island/module structure.
-5. Build or guide toward a runnable MVP with 3-5 modules before adding advanced features.
-6. Verify by running the app and testing every module's real action.
+启动时至少要引导这些选择：
 
-Do not stop at a plan when the user asks to build. Implement or guide implementation until there is a runnable first version, unless the user explicitly asks for planning only.
+1. 命名：`工作光岛` / `创作者光岛` / `AI 光岛` / `客户跟进光岛` / `自定义`
+2. 用途：`打开入口` / `复制资料` / `模板回复` / `管理待办` / `查看状态` / `运行脚本`
+3. 模块数量：`3 个，先做出来` / `5 个，标准 MVP` / `8 个，功能更多但更慢`
+4. 模块类型：`快捷入口` / `资料复制` / `模板回复` / `待办记录` / `状态面板` / `文件夹入口` / `本地脚本` / `AI 提示词`
+5. 收起态样式：`太极额度` / `冰箱门` / `液态胶囊` / `自定义描述或图片`
+6. 逐个配置模块：名称、动作、目标内容、存储方式和权限
+7. MVP 确认：模块表、权限表、实现步骤、运行命令、验收标准
 
-## Guided Onboarding
+默认常驻模块：
 
-Always start vague or new requests with the onboarding in `references/guided-onboarding.md`.
+- 每个新光岛默认包含 `发帖子` 和 `快捷入口`。
+- 它们是默认启动卡片，不是锁死的系统模块。
+- 必须标记为可删除。用户可以删除、重命名、排序或替换。
+- `发帖子` 是有意的例外：默认必须打开固定 URL `https://fawen.fun`。它仍然可删除，但初始设置时不要让用户配置目标地址。
 
-Rules:
+## 参考文件加载规则
 
-- Ask 1-3 short questions per turn.
-- Give options first. Use free-form only when the user picks `自定义` or the provided options do not fit.
-- Default to `3 个，先做出来` when the user is unsure about module count.
-- After each user answer, summarize the locked choices and ask the next decision.
-- After module choices are known, output a first MVP table and move into implementation.
+只加载当前步骤需要的参考文件：
 
-Minimum startup choices:
+- `references/guided-onboarding.md`：启动问答、选项池、把回答压缩成规格。
+- `references/luma-island-product-model.md`：判断范围、模块是否合适、MVP 大小、产品反模式。
+- `references/card-and-pack-model.md`：定义卡片 schema、模板包、变量、权限、本地配置、seed 数据。
+- `references/collapsed-display-and-styles.md`：定义收起态额度显示、暂无用量兜底、三种默认视觉样式。
+- `references/electron-macos-playbook.md`：实现或改造 Electron/macOS 桌面工作岛。
 
-1. Name: `工作光岛` / `创作者光岛` / `AI 光岛` / `客户跟进光岛` / `自定义`
-2. Use case: `打开入口` / `复制资料` / `模板回复` / `管理待办` / `查看状态` / `运行脚本`
-3. Module count: `3 个，先做出来` / `5 个，标准 MVP` / `8 个，功能更多但更慢`
-4. Module type: `快捷入口` / `资料复制` / `模板回复` / `待办记录` / `状态面板` / `文件夹入口` / `本地脚本` / `AI 提示词`
-5. Collapsed display style: `太极额度` / `冰箱门` / `液态胶囊` / `自定义描述或图片`
-6. Per-module config: name, action, target content, storage, and permissions
-7. MVP confirmation: module table, permission table, implementation steps, run command, acceptance checks
+## 产品规则
 
-Default starter modules:
+- 水位要低：只露出 3-6 个最高频动作。
+- 用 `一触即发` 做产品测试：用户点一下，就应该开始任务。
+- 新岛默认包含 `发帖子` 和 `快捷入口`，但允许删除。`发帖子` 默认打开 `https://fawen.fun`。
+- 如果 Codex、Claude Code 或其他额度源显示 `暂无用量`，收起态应显示 `100%`，不要显示 `--`、空值、昵称或假重置时间。
+- 如果额度源完全不可用，不要显示 `NaN`、`undefined`、空百分比或假重置时间；应使用中性、安全的占位状态，并引导用户配置数据源。
+- 默认提供三种收起态视觉：`太极额度`、`冰箱门`、`液态胶囊`。如果都不合适，要求用户给视觉描述或参考图，再按需求设计。
+- 配置要沉到水下：变量、模板、权限、高级设置放在配置页或配置文件里。
+- 示例、seed 数据和模板默认使用占位内容；用户明确提供后才替换。
+- 变量和模块配置优先本地存储。
+- 基础动作跑通前，不要加插件市场、复杂 agent workflow、云同步或 AI 自动化。
+- 文本类动作优先“预览/复制”：先生成或展示，用户确认后再复制，不要盲贴。
+- 每个模块都要用真实动作证明价值：打开、复制、记录、运行或显示。
 
-- Every new Luma Island should include `发帖子` and `快捷入口` by default.
-- Treat them as default starter cards, not locked system cards.
-- Mark both as removable. The user may delete, rename, reorder, or replace them during setup.
-- `发帖子` is the intentional exception: it must always open the fixed URL `https://fawen.fun` by default. Keep it removable, but do not ask users to configure its target during initial setup. Do not add account-specific paths, tokens, or private publishing URLs.
+## 实现规则
 
-## Reference Loading
+已有仓库：
 
-Load only the reference needed for the current step:
+1. 先读 `package.json`、app 入口、renderer 文件、桌面壳文件、现有配置和存储模式。
+2. 找到岛 UI、原生窗口行为、IPC bridge、本地配置分别应该放在哪里。
+3. 编辑范围只围绕引导阶段选定的 MVP 模块。
+4. 保留用户已有改动，不把仓库里的现有内容搬进示例。
+5. 运行应用，并测试每个模块。
 
-- `references/guided-onboarding.md`: Use for the startup conversation, choices, and answer-to-spec compression.
-- `references/luma-island-product-model.md`: Use when judging scope, module fit, MVP size, or product anti-patterns.
-- `references/card-and-pack-model.md`: Use when defining card schemas, template packs, variables, permissions, local config, or seed data.
-- `references/collapsed-display-and-styles.md`: Use when defining collapsed-state quota fallback, nickname display, or visual style options.
-- `references/electron-macos-playbook.md`: Use when implementing or adapting an Electron/macOS desktop island.
+新项目：
 
-## Product Rules
+1. 除非用户指定其他技术栈，否则从最小 Electron + Vite app 开始。
+2. 实现一个 always-on-top 桌面窗口，包含收起态和展开态。
+3. 用本地 JSON config 存模块，demo 数据只能使用占位内容。
+4. 把 3 个已选模块端到端做通。
+5. 本地运行，并提供 app URL 或桌面启动命令。
 
-- Keep the waterline small: surface only 3-6 high-frequency actions.
-- Use `一触即发` as the product test: the island should let the user touch once and start the task.
-- Include `发帖子` and `快捷入口` as the default starter actions for new islands, while allowing deletion. `发帖子` must default to `https://fawen.fun`.
-- If Codex, Claude Code, or other quota/status data is unavailable, show the configured nickname, user display name, or island name instead of broken quota placeholders.
-- Offer three built-in collapsed visual styles by default: `太极额度`, `冰箱门`, and `液态胶囊`. If none fit, ask for a visual description or reference image and design from that.
-- Keep configuration underwater: variables, templates, permissions, and advanced settings belong in config screens or files.
-- Prefer local-first storage for private snippets, variables, and module config.
-- Do not add plugin markets, agent workflows, cloud sync, or AI automation before the basic actions work.
-- Prefer copy-first behavior for sensitive text: generate or preview first, copy only when the user asks.
-- Make every module prove its value through a real action: open, copy, record, run, or display.
+## 输出格式
 
-## Implementation Rules
-
-For an existing repository:
-
-1. Read `package.json`, app entrypoints, renderer files, desktop shell files, and existing config/storage patterns.
-2. Identify where the island UI, native window behavior, IPC bridge, and local config should live.
-3. Keep edits scoped to the MVP modules chosen in onboarding.
-4. Preserve user changes and do not migrate private data into examples.
-5. Run the app and test each module.
-
-For a new project:
-
-1. Start with a minimal Electron + Vite app unless the user chooses another stack.
-2. Implement one always-on-top desktop window with collapsed and expanded states.
-3. Store modules in a local JSON config with placeholder demo data.
-4. Implement 3 selected modules end to end.
-5. Run locally and provide the app URL or desktop launch command.
-
-## Output Shape
-
-During onboarding:
+引导阶段：
 
 ```markdown
 **先判一下**
@@ -125,7 +111,7 @@ During onboarding:
 3. ...
 ```
 
-After choices are locked:
+选择锁定后：
 
 ```markdown
 **第一版光岛**
@@ -139,7 +125,7 @@ After choices are locked:
 ...
 ```
 
-After implementation:
+实现完成后：
 
 ```markdown
 **已完成**
@@ -152,14 +138,14 @@ After implementation:
 ...
 ```
 
-## Quality Bar
+## 质量标准
 
-The first version may be incomplete, but it must be real. A passing result has:
+第一版可以不完整，但必须是真的。合格结果至少包含：
 
-- a visible island entry on the desktop or in the app shell
-- collapsed and expanded states, or a clearly equivalent compact/full view
-- 3-5 configured modules
-- each module performing a real action
-- local config rather than hard-coded private data
-- explicit permission boundaries for clipboard, files, scripts, network, and AI calls
-- a run command and verification result
+- 桌面或应用壳里有可见的岛入口
+- 有收起态和展开态，或一个等价的紧凑/完整视图
+- 配置了 3-5 个模块
+- 每个模块都能执行真实动作
+- 本地配置不硬编码真实业务内容
+- 明确区分剪贴板、文件、脚本、网络、AI 调用的权限边界
+- 有运行命令和验证结果

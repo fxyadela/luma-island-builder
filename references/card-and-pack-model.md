@@ -4,7 +4,7 @@ Use this reference when converting onboarding answers into data structures. Keep
 
 ## Card Manifest
 
-Every module should be represented as a card. Do not hard-code private data into UI components.
+Every module should be represented as a card. Do not hard-code user-specific values into UI components.
 
 ```json
 {
@@ -15,7 +15,7 @@ Every module should be represented as a card. Do not hard-code private data into
   "icon": "clipboard",
   "action": {
     "kind": "copy",
-    "template": "{{service_name}}\\n{{price_placeholder}}\\n{{delivery_notes}}"
+    "template": "{{service_name}}\\n{{placeholder_value}}\\n{{delivery_notes}}"
   },
   "permissions": ["clipboard.write"],
   "placement": {
@@ -80,7 +80,7 @@ Every new Luma Island should ship with two default starter cards:
 ]
 ```
 
-These cards are default starter cards, not locked system cards. The user may delete, rename, reorder, or replace them. `发帖子` intentionally uses the fixed URL `https://fawen.fun`; do not add account-specific paths, tokens, workspace paths, or other private targets.
+These cards are default starter cards, not locked system cards. The user may delete, rename, reorder, or replace them. `发帖子` intentionally uses the fixed URL `https://fawen.fun`; do not add extra setup-specific targets during initial setup.
 
 ## Action Shapes
 
@@ -115,19 +115,19 @@ Permissions: `file.open`
 }
 ```
 
-Permissions: `clipboard.write`, optionally `vault.read`
+Permissions: `clipboard.write`, optionally `storage.read`
 
 ### Template Reply
 
 ```json
 {
   "kind": "fill-template",
-  "template": "你好，{{client_name}}。这里是 {{service_name}} 的项目说明：{{delivery_notes}}",
-  "variables": ["client_name", "service_name", "delivery_notes"]
+  "template": "你好，{{recipient_name}}。这里是 {{service_name}} 的项目说明：{{delivery_notes}}",
+  "variables": ["recipient_name", "service_name", "delivery_notes"]
 }
 ```
 
-Permissions: `clipboard.write`, optionally `vault.read`
+Permissions: `clipboard.write`, optionally `storage.read`
 
 ### Todo Capture
 
@@ -167,18 +167,18 @@ Permissions: `script.run`, `file.read`, optionally `network.read`
 
 ## Variable Store
 
-Use variables for user-specific values. Store private values outside source code.
+Use variables for user-specific values. Store user-provided values outside source code.
 
 ```json
 {
   "contact_email": "name@example.com",
   "service_name": "Example Service",
-  "price_placeholder": "Price discussed separately",
+  "placeholder_value": "Replace this during setup",
   "delivery_notes": "Delivery details go here"
 }
 ```
 
-Never seed real private data. Use placeholders in examples and tests.
+Use placeholders in examples and tests.
 
 ## Template Pack
 
@@ -214,16 +214,17 @@ The island's collapsed state should be configurable. Do not assume every user ha
 {
   "collapsedDisplay": {
     "style": "taiji-quota",
-    "fallbackLabel": "{{nickname}}",
     "quotaSources": ["codex", "claude-code"],
-    "missingDataBehavior": "show-fallback-label"
+    "noUsageBehavior": "show-100-percent",
+    "missingDataBehavior": "show-neutral-placeholder",
+    "fallbackLabel": "{{island_name}}"
   }
 }
 ```
 
 Supported `style` values:
 
-- `taiji-quota`: paired quota/status visual; fall back to nickname or island name when data is absent
+- `taiji-quota`: paired quota/status visual; show `100%` when a source reports no usage, and avoid fake numbers when a source is unreadable
 - `fridge-door`: rounded door object with handle/opening metaphor
 - `liquid-capsule`: vertical capsule with liquid layer, glow, or center mark
 - `custom`: user-provided visual description or reference image translated into implementation specs
@@ -231,11 +232,11 @@ Supported `style` values:
 Fallback order for missing quota/status data:
 
 1. valid quota or status data
-2. configured source nickname
-3. user nickname or team display name
-4. island name
+2. `100%` when the source explicitly reports no usage
+3. neutral placeholder when a configured source is unreadable or unauthorized
+4. island name or configured short label when no quota source is configured
 
-Never seed real account names, private paths, or quota screenshots in committed config. Use placeholders such as `{{nickname}}`, `{{island_name}}`, and `{{quota_source_label}}`.
+Do not seed machine-specific paths or local screenshots in committed config. Use placeholders such as `{{island_name}}`, `{{display_label}}`, and `{{quota_source_label}}`.
 
 ## Permission Vocabulary
 
@@ -248,9 +249,8 @@ Use explicit permissions:
 - `file.open`: open local path
 - `file.read`: read local file
 - `file.write`: write local file
-- `storage.read`: read app local config
+- `storage.read`: read app local config or local variable store
 - `storage.write`: write app local config
-- `vault.read`: read private variable store
 - `script.run`: run local commands
 - `ai.call`: call AI service
 
@@ -261,14 +261,14 @@ Prefer the narrowest permission. Ask before adding `clipboard.read`, `file.read`
 For Electron:
 
 - module config: app userData JSON
-- private variables: separate local JSON or OS credential storage when available
+- user variables: separate local JSON or OS credential storage when available
 - todos: local JSON or Markdown chosen by user
 - click stats: local JSON
 
 For browser-only prototypes:
 
 - module config: localStorage
-- private variables: placeholders only
+- user variables: placeholders only
 - todos: localStorage
 
-Do not store private data in committed source files.
+Do not store user-provided values in committed source files.
