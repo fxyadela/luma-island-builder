@@ -307,4 +307,4 @@ When the user wants speed, choose:
   2. `快捷入口`: open a placeholder project or URL, removable
   3. `待办记录`: add a local todo
 - storage: local JSON or localStorage
-- platform: Electron/macOS if desktop behavior is needed; browser prototype if the user only needs a demo
+- platform: Electron desktop app if desktop behavior is needed; browser prototype if the user only needs a demo

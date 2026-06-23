@@ -1,6 +1,6 @@
 ---
 name: luma-island-builder
-description: "引导用户通过对话创建、原型化或实现一个光岛 / Luma Island：桌面工作岛、浮岛、Island 风格任务入口或桌面快捷执行面板。适用于快速链接、资料复制、模板回复、待办、状态面板、本地脚本、AI 提示词等高频动作。用户提到光岛、Luma Island、桌面工作岛、Island、desktop island、生产力桌面助手、快捷任务中心，或想把个人桌面助手想法做成可运行 MVP 时使用。不要用于纯装饰桌宠。"
+description: "引导用户通过对话创建、原型化或实现一个跨平台光岛 / Luma Island：桌面工作岛、浮岛、Island 风格任务入口或桌面快捷执行面板。适用于快速链接、资料复制、模板回复、待办、状态面板、本地脚本、AI 提示词等高频动作。用户提到光岛、Luma Island、桌面工作岛、Island、desktop island、生产力桌面助手、快捷任务中心，或想把个人桌面助手想法做成可运行 MVP 时使用。不要用于纯装饰桌宠。"
 ---
 
 # 光岛 Builder
@@ -18,7 +18,7 @@ description: "引导用户通过对话创建、原型化或实现一个光岛 / 
 3. 把用户回答收束成最小光岛规格：名称、使用人群、模块、动作、权限、存储和验收标准。
 4. 选择实现路线：
    - 已有仓库：先读项目结构再改。
-   - 没有仓库：优先引导创建最小 Electron/Vite app。
+   - 没有仓库：优先引导创建最小 Electron/Vite app，按用户系统适配 macOS、Windows 或 Linux。
    - 用户指定非 Electron：可以适配技术栈，但保留同一套“岛 + 模块”结构。
 5. 先做 3-5 个模块的可运行 MVP，再加高级功能。
 6. 运行应用并逐个验证模块是否真的完成动作。
@@ -62,7 +62,7 @@ description: "引导用户通过对话创建、原型化或实现一个光岛 / 
 - `references/luma-island-product-model.md`：判断范围、模块是否合适、MVP 大小、产品反模式。
 - `references/card-and-pack-model.md`：定义卡片 schema、模板包、变量、权限、本地配置、seed 数据。
 - `references/collapsed-display-and-styles.md`：定义收起态额度显示、暂无用量兜底、三种默认视觉样式。
-- `references/electron-macos-playbook.md`：实现或改造 Electron/macOS 桌面工作岛。
+- `references/electron-desktop-playbook.md`：实现或改造跨平台 Electron 桌面工作岛。
 
 ## 产品规则
 

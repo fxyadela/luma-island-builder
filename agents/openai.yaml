@@ -1,4 +1,4 @@
 interface:
   display_name: "光岛 Builder"
-  short_description: "一触即发：通过选择式引导做出可运行的光岛桌面任务入口"
-  default_prompt: "Use $luma-island-builder to help me build a Luma Island desktop work island for my daily shortcuts, copy snippets, templates, and status checks."
+  short_description: "一触即发：跨平台引导做出可运行的光岛桌面任务入口"
+  default_prompt: "Use $luma-island-builder to help me build a cross-platform Luma Island desktop work island for my daily shortcuts, copy snippets, templates, and status checks."

@@ -1,6 +1,6 @@
-# Electron/macOS Playbook
+# Electron Desktop Playbook
 
-Use this reference when implementing a desktop work island with Electron, especially on macOS. Adapt the route to the user's repo; do not force exact file names.
+Use this reference when implementing a desktop work island with Electron on macOS, Windows, or Linux. Adapt the route to the user's repo and operating system; do not force exact file names or one operating system's packaging flow.
 
 ## Existing Repo First Pass
 
@@ -157,7 +157,13 @@ After implementation, verify:
 - user-provided values are not committed to source
 - permissions are documented in the module table
 
-For packaged macOS apps, source edits are not enough. If the user expects the installed app to change, rebuild/sync the installed bundle and restart it before claiming the visible app is updated.
+For packaged desktop apps, source edits are not enough. If the user expects the installed app to change, rebuild the package, sync the installed output when needed, and restart the app before claiming the visible app is updated.
+
+## Platform Notes
+
+- macOS: packaged apps may need the installed `.app` bundle refreshed before the visible app changes.
+- Windows: keep install and config paths user-relative, such as `%USERPROFILE%` and `%APPDATA%`; avoid hard-coded POSIX paths in docs or generated examples.
+- Linux: expect window-manager differences around always-on-top, transparency, and drag regions.
 
 ## Safety Defaults
 

@@ -10,7 +10,7 @@
 
 ## 中文版本
 
-`luma-island-builder` 是一个 Codex Skill，用来引导用户通过对话做出一个可运行的桌面工作岛。
+`luma-island-builder` 是一个 Codex Skill，用来引导用户通过对话做出一个可运行的跨平台桌面工作岛。
 
 光岛不是桌宠皮肤，也不是一个漂亮概念稿。它的目标是把用户每天重复的高频动作收进一个桌面边缘的小入口：打开链接、复制资料、生成模板回复、记录待办、查看状态、运行本地脚本。
 
@@ -26,7 +26,7 @@
 - 引导用户完成命名、用途、模块数量和模块类型选择
 - 把用户回答收束成清晰的 MVP 表格
 - 定义卡片、变量、权限和本地存储方式
-- 默认按 Electron/macOS 优先路线实现或指导实现
+- 默认按跨平台 Electron/Vite 路线实现或指导实现
 - 验证每个模块是否真的完成了一个动作
 
 ### 引导流程
@@ -59,11 +59,18 @@
 
 ### 安装
 
-把这个仓库克隆到 Codex skills 目录：
+把这个仓库克隆到 Codex skills 目录。macOS / Linux：
 
 ```bash
 mkdir -p ~/.codex/skills
 git clone https://github.com/fxyadela/luma-island-builder.git ~/.codex/skills/luma-island-builder
+```
+
+Windows PowerShell：
+
+```powershell
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills"
+git clone https://github.com/fxyadela/luma-island-builder.git "$env:USERPROFILE\.codex\skills\luma-island-builder"
 ```
 
 然后重启或刷新 Codex，让 Skill 被发现。
@@ -92,7 +99,7 @@ Use $luma-island-builder to help me build a Luma Island desktop work island for 
 └── references/
     ├── card-and-pack-model.md
     ├── collapsed-display-and-styles.md
-    ├── electron-macos-playbook.md
+    ├── electron-desktop-playbook.md
     ├── guided-onboarding.md
     └── luma-island-product-model.md
 ```
@@ -115,7 +122,7 @@ Skill is valid!
 
 ## English Version
 
-`luma-island-builder` is a Codex Skill for guiding users through building a small, runnable desktop work island.
+`luma-island-builder` is a Codex Skill for guiding users through building a small, runnable cross-platform desktop work island.
 
 Luma Island is not a desktop pet skin or a polished concept mockup. Its purpose is to collect the user's repeated daily actions into a small desktop-edge entry point: opening links, copying reusable snippets, generating template replies, capturing todos, checking status, and running local scripts.
 
@@ -131,7 +138,7 @@ It helps Codex:
 - guide the user through naming, use case, module count, and module choices
 - convert the user's answers into a clear MVP table
 - define cards, variables, permissions, and local storage
-- implement or guide a small Electron/macOS-first desktop island
+- implement or guide a small cross-platform Electron/Vite desktop island
 - verify that every module performs a real action
 
 ### Guided Flow
@@ -164,11 +171,18 @@ Examples, templates, and seed files should use placeholders by default:
 
 ### Install
 
-Clone this repository into your Codex skills directory:
+Clone this repository into your Codex skills directory. macOS / Linux:
 
 ```bash
 mkdir -p ~/.codex/skills
 git clone https://github.com/fxyadela/luma-island-builder.git ~/.codex/skills/luma-island-builder
+```
+
+Windows PowerShell:
+
+```powershell
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills"
+git clone https://github.com/fxyadela/luma-island-builder.git "$env:USERPROFILE\.codex\skills\luma-island-builder"
 ```
 
 Then restart or refresh Codex so the Skill can be discovered.
@@ -197,7 +211,7 @@ Chinese example:
 └── references/
     ├── card-and-pack-model.md
     ├── collapsed-display-and-styles.md
-    ├── electron-macos-playbook.md
+    ├── electron-desktop-playbook.md
     ├── guided-onboarding.md
     └── luma-island-product-model.md
 ```
