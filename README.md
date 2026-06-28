@@ -94,6 +94,14 @@ Use $luma-island-builder to help me build a Luma Island desktop work island for 
 
 ### 升级旧项目样式
 
+最简单的方式：打开你的旧光岛项目，然后对 Codex 说：
+
+```text
+用 $luma-island-builder 升级当前光岛样式，不动我的配置。
+```
+
+Codex 会帮你跑下面的命令。
+
 已经装过旧版 skill、并且项目里已经有设置的人，不要重新安装，也不要重建项目。先更新 skill 本体：
 
 ```bash
@@ -229,6 +237,14 @@ Chinese example:
 ```
 
 ### Upgrade An Existing Project's Style
+
+Simplest path: open your existing Luma Island project and tell Codex:
+
+```text
+Use $luma-island-builder to upgrade this project's style without changing my configuration.
+```
+
+Codex should run the commands below for you.
 
 If you already installed an older version and configured a project, do not reinstall or rebuild the project. First update the skill:
 
