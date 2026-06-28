@@ -92,6 +92,22 @@ git clone https://github.com/fxyadela/luma-island-builder.git "$env:USERPROFILE\
 Use $luma-island-builder to help me build a Luma Island desktop work island for my daily shortcuts, copy snippets, templates, and status checks.
 ```
 
+### 升级旧项目样式
+
+已经装过旧版 skill、并且项目里已经有设置的人，不要重新安装，也不要重建项目。先更新 skill 本体：
+
+```bash
+git -C ~/.codex/skills/luma-island-builder pull --ff-only
+```
+
+然后只给旧项目升级样式：
+
+```bash
+node ~/.codex/skills/luma-island-builder/scripts/upgrade-style.mjs --project /你的/光岛项目路径
+```
+
+这个脚本只会安装新版 CSS 并追加样式 import，不会修改模块配置、保存过的链接、变量或本地数据。需要同时拷贝拖动模板时，再加 `--include-drag`。
+
 ### 文件结构
 
 ```text
@@ -99,6 +115,8 @@ Use $luma-island-builder to help me build a Luma Island desktop work island for 
 ├── SKILL.md
 ├── agents/
 │   └── openai.yaml
+├── scripts/
+│   └── upgrade-style.mjs
 ├── templates/
 │   ├── default-luma-island.css
 │   └── luma-window-drag.js
@@ -210,6 +228,22 @@ Chinese example:
 用 $luma-island-builder 帮我做一个光岛。第一版只要 3 个模块：打开项目、复制通用资料、记录待办。
 ```
 
+### Upgrade An Existing Project's Style
+
+If you already installed an older version and configured a project, do not reinstall or rebuild the project. First update the skill:
+
+```bash
+git -C ~/.codex/skills/luma-island-builder pull --ff-only
+```
+
+Then upgrade only the existing project's style:
+
+```bash
+node ~/.codex/skills/luma-island-builder/scripts/upgrade-style.mjs --project /path/to/your/luma-project
+```
+
+This installs the new CSS and prepends the style import. It does not modify modules, saved links, variables, or local user data. Add `--include-drag` only when you also want the drag helper copied.
+
 ### Files
 
 ```text
@@ -217,6 +251,8 @@ Chinese example:
 ├── SKILL.md
 ├── agents/
 │   └── openai.yaml
+├── scripts/
+│   └── upgrade-style.mjs
 ├── templates/
 │   ├── default-luma-island.css
 │   └── luma-window-drag.js

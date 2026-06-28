@@ -86,6 +86,7 @@ description: "引导用户通过对话创建、原型化或实现一个跨平台
 - `references/electron-desktop-playbook.md`：实现或改造跨平台 Electron 桌面工作岛。
 - `templates/default-luma-island.css`：默认桌面端视觉模板。新建项目时必须复制；已有项目需要默认视觉基线时加载。
 - `templates/luma-window-drag.js`：默认拖动模板。Electron 项目需要让岛上大部分区域都能拖动时加载。
+- `scripts/upgrade-style.mjs`：给已生成的旧项目做原地样式升级。只安装新版 CSS，可选复制拖动模板，不修改用户模块、链接、变量或本地数据。
 
 ## 产品规则
 
@@ -115,6 +116,14 @@ description: "引导用户通过对话创建、原型化或实现一个跨平台
 4. 编辑范围只围绕引导阶段选定的 MVP 模块。
 5. 保留用户已有改动，不把仓库里的现有内容搬进示例。
 6. 运行应用，并测试每个模块。
+
+已安装旧版并且已有用户配置的项目：
+
+1. 不要要求用户重新安装 skill 或重建项目。
+2. 先让用户更新 skill 仓库：`git -C ~/.codex/skills/luma-island-builder pull --ff-only`。
+3. 再在旧项目上运行样式升级：`node ~/.codex/skills/luma-island-builder/scripts/upgrade-style.mjs --project /path/to/project`。
+4. 如果只升级样式，不传 `--include-drag`；如果也要带拖动模板，再传 `--include-drag`。
+5. 告诉用户脚本不会改模块配置、已保存链接、变量和本地数据。
 
 新项目：
 
