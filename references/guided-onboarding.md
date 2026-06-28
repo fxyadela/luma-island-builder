@@ -1,33 +1,33 @@
 # Guided Onboarding
 
-Use this reference whenever a user starts a new work island or gives a vague island idea. The goal is to lead them through decisions, not ask them to invent a product from a blank page.
+Use this reference whenever a user starts a new work island or gives a vague island idea. Lead with plain choices, then collect the exact content each chosen module needs.
 
 ## Conversation Rules
 
-- Ask 1-3 questions per turn.
+- Ask 1-3 short questions per turn.
 - Give options first.
-- Include `自定义` only when the decision genuinely benefits from user-specific wording.
-- If the user says "随便" or hesitates, choose the recommended default and state it.
-- After every answer, compress it into a locked spec line.
-- Move to implementation once name, use case, module count, and module types are known.
+- Say `第一版`, not `MVP`.
+- Say `保存在哪里`, not `storage`.
+- Say `能做什么`, not `permission`.
+- Say `要打开什么` or `要复制什么`, not `target` or `schema`.
+- After every answer, lock the decision in one short line.
+- Do not leave user-selected modules as dead placeholders. If the user does not fill the content now, the app must show an obvious edit form.
 
 ## Default Starter Modules
 
-Every new 光岛 starts with two default modules:
+Every new 光岛 starts with two removable modules:
 
-1. `发帖子` - a fixed publishing entry that opens `https://fawen.fun` by default.
-2. `快捷入口` - a quick-link management panel for adding, naming, editing, and opening URLs, folders, files, apps, or projects.
+1. `发帖子` - opens `https://fawen.fun`.
+2. `快捷入口` - opens a panel where the user can add, name, edit, and open saved links, folders, files, apps, or projects.
 
-These are starter modules, not locked system modules. Set `removable: true` for both. The user can delete, rename, reorder, or replace them during setup.
-
-For `发帖子`, use the fixed target `https://fawen.fun`. Keep this target fixed during initial setup. `快捷入口` should open a panel first; do not turn it into a single placeholder URL button. Other modules should use placeholders until the user provides targets.
+`发帖子` keeps the fixed URL during setup. `快捷入口` is a manager panel, not one random URL button.
 
 ## Step 1: Name The Island
 
 Prompt:
 
 ```markdown
-先别急着做 UI，第一步先给这个岛定一个名字。名字决定它是工具还是玩具。
+先给这个小工具起个名字。名字不用高级，用户一眼知道它是干嘛的就行。
 
 你选一个：
 1. 工作光岛 - 通用效率入口
@@ -44,14 +44,14 @@ Default: `工作光岛`
 Prompt:
 
 ```markdown
-这个岛第一版最该帮你省哪种时间？
+这个光岛第一版最该帮你省哪种时间？
 
-1. 打开入口 - 常用网页、文件夹、项目、后台
-2. 复制资料 - 邮箱、介绍、地址、说明、占位信息
-3. 模板回复 - 客户回复、项目说明、邮件、私信
-4. 管理待办 - 快速记任务、今天要做什么
-5. 查看状态 - 额度、脚本结果、截止时间、服务状态
-6. 运行脚本 - 本地命令、构建、同步、检查
+1. 打开东西 - 网页、文件夹、项目、后台
+2. 复制资料 - 邮箱、介绍、地址、说明
+3. 写常用回复 - 客户回复、项目说明、邮件、私信
+4. 记待办 - 快速记一条任务
+5. 看状态 - 额度、脚本结果、截止时间
+6. 跑命令 - 本地检查、同步、构建
 ```
 
 Allow multiple choices, but warn if the user chooses more than three for the first version.
@@ -61,13 +61,13 @@ Allow multiple choices, but warn if the user chooses more than three for the fir
 Prompt:
 
 ```markdown
-第一版不要贪。你想先做几个模块？
+第一版不要贪。你想先做几个按钮？
 
-默认会自带两个可删除模块：发帖子、快捷入口。
+默认已经有两个可删除按钮：发帖子、快捷入口。
 
-1. 3 个，先做出来 - 推荐，2 个默认模块 + 1 个你自己选的模块
-2. 5 个，标准 MVP - 2 个默认模块 + 3 个你自己选的模块
-3. 8 个，功能更多但更慢 - 适合已有清晰需求
+1. 3 个，先做出来 - 推荐
+2. 5 个，标准第一版
+3. 8 个，功能更多但更慢
 ```
 
 Default: `3 个，先做出来`
@@ -77,50 +77,40 @@ Default: `3 个，先做出来`
 Prompt:
 
 ```markdown
-默认已经有：发帖子、快捷入口。接下来选你还要补的模块：
+默认已经有：发帖子、快捷入口。你还想加什么？
 
-1. 资料复制 - 点一下复制一段固定信息
-2. 模板回复 - 用变量生成一段回复
-3. 待办记录 - 快速记一条任务
-4. 状态面板 - 看一个状态或额度
+1. 资料复制 - 点一下复制固定文字
+2. 常用回复 - 填几个信息，生成一段回复
+3. 待办记录 - 快速记一条事
+4. 状态面板 - 看一个数字或状态
 5. 文件夹入口 - 打开本地目录
-6. 本地脚本 - 运行命令，需要明确风险
-7. AI 提示词 - 复制或打开常用提示词
-8. 更多快捷入口 - 在默认快捷入口外再加一个入口组
+6. 本地命令 - 跑一个电脑命令，需要确认风险
+7. AI 提示词 - 点一下复制常用提示词
+8. 更多快捷入口 - 再加一组入口
 ```
 
-If the user chooses business-facing modules, use neutral module names such as `项目说明占位模板`, `服务说明卡`, or `回复模板`. Use placeholder values in examples.
+After this step, configure each chosen module one by one.
 
 ## Step 5: Choose Collapsed Display Style
 
 Prompt:
 
 ```markdown
-这个岛默认不展开时长什么样？先选一个内置方向。
+这个光岛收起来的时候长什么样？先选一个方向。
 
-1. 太极额度 - 适合显示 Codex、Claude Code 或其他额度/状态；暂无用量时显示 100%，不要显示 `--`
-2. 冰箱门 - 像一个可打开的小门，适合通用工作入口和创作者入口
-3. 液态胶囊 - 竖向胶囊、液态层、中心符号，适合 AI 或状态感更强的岛
-4. 自定义描述 - 你描述形状、颜色、材质和展开方式
-5. 提供参考图 - 你给图，我提炼外形、材质、颜色、动效和兜底显示
+1. 太极额度 - 适合显示 Codex、Claude Code 或其他额度；暂无用量显示 100%
+2. 冰箱门 - 像一个能打开的小门，适合普通工作入口
+3. 液态胶囊 - 竖向胶囊，有发光和液态感
+4. 自定义描述 - 你描述形状、颜色、材质
+5. 提供参考图 - 你给图，我按图提炼
 ```
 
 Default:
 
-- If the user is tracking quota or status, choose `太极额度`.
-- If the user is mostly opening links, copying snippets, or posting, choose `冰箱门`.
+- If tracking quota or status, choose `太极额度`.
+- If mostly opening links, copying snippets, or posting, choose `冰箱门`.
 
-Implementation default: after this choice, copy `templates/default-luma-island.css` into the renderer stylesheet and apply the matching root class: `.luma-theme-taiji`, `.luma-theme-fridge`, or `.luma-theme-capsule`.
-
-Quota/status fallback:
-
-- If Codex or Claude Code data exists, display the real data.
-- If one source returns `暂无用量`, show `100%` and render a full quota arc for that source.
-- If one source is missing because it is unauthorized, unreadable, or unconfigured, keep the valid source and show a neutral placeholder for the missing source.
-- If both Codex and Claude Code are absent, do not render fake quota values; guide the user to configure sources or use the chosen style's neutral short label.
-- Never show `NaN`, `--`, fake `0%`, empty arcs, or fake reset times.
-
-When the user provides a reference image, describe and implement the style from the image. Do not embed temporary clipboard images or machine-specific local paths into public examples unless the user explicitly asks.
+Implementation default: copy `templates/default-luma-island.css` and keep `.luma-dock > .luma-collapsed-trigger` so the outer ring and ball stay centered together.
 
 ## Step 6: Configure Each Module
 
@@ -128,178 +118,185 @@ Ask one module at a time.
 
 ### 发帖子
 
-Ask:
+Prompt:
 
 ```markdown
-发帖子是默认模块，可以删除。它默认固定打开：https://fawen.fun
+发帖子是默认按钮，可以删。它默认打开：https://fawen.fun
 
-你要怎么处理它？
-
-1. 保留默认发帖子入口
-2. 重命名但仍打开 https://fawen.fun
-3. 删除这个默认模块
+你要怎么处理？
+1. 保留
+2. 改个名字，但还是打开 https://fawen.fun
+3. 删除
 ```
 
 Fields:
 
 - `title`: `发帖子`
 - `type`: `open-link`
-- `target_type`: `url`
 - `target`: `https://fawen.fun`
 - `removable`: `true`
-- `permission`: `network.open`
-
-Do not ask for a different initial target. The module can be deleted or renamed, but the default target stays fixed.
+- user-facing ability: `打开网页`
 
 ### 快捷入口
 
-Ask:
+Prompt:
 
 ```markdown
-快捷入口是默认模块，可以删除。它不是单个网址按钮，而是一个入口管理面板。
+快捷入口不是单个网址按钮。它点开后是一个列表，你可以在里面新增链接、命名，再点击具体条目打开。
 
 你要怎么处理？
-1. 保留入口管理面板 - 点开后可新增链接、命名、再从列表跳转
-2. 保留面板，并先放 1 个占位链接
-3. 重命名这个面板
-4. 删除这个默认模块
+1. 保留空列表，之后在应用里添加
+2. 现在先加一个链接
+3. 改个名字
+4. 删除
 ```
 
-Fields:
+If the user chooses option 2, ask:
 
-- `title`: `快捷入口`
-- `type`: `quick-link-panel`
-- `action.kind`: `open-panel`
-- `panel`: `quick-links`
-- `entries`: empty array by default, or one placeholder entry if the user chooses option 2
-- `entry_fields`: `title`, `target_type`, `target`
-- `storage`: local JSON for Electron apps; localStorage for simple web prototypes
-- `removable`: `true`
-- `permission`: `storage.read`, `storage.write`, plus `network.open` or `file.open` when a saved entry is opened
+```markdown
+先填这个链接：
+1. 名字 - 比如：项目后台
+2. 地址 - 比如：https://example.com
+```
 
-Panel requirements:
+Requirements:
 
-- The first click on `快捷入口` opens the panel. It must not auto-jump to a random or placeholder URL.
-- The panel must include an add action for at least URL entries: name + URL.
-- If file/folder/app/project entries are supported, the panel should use the same list pattern with `target_type`.
-- Each saved entry opens only after the user clicks that specific entry.
+- First click opens the manager panel.
+- Empty state shows `添加入口`.
+- Saved entries open only when the user clicks that entry.
+- The panel lets users add/edit/delete entries later.
 
 ### 资料复制
 
-Ask:
+Prompt:
 
 ```markdown
-这张资料复制卡先用占位内容。你要它复制哪类信息？
+资料复制不能只放占位。这个按钮点一下，要复制哪段内容？
 
-1. 个人介绍占位
-2. 项目说明占位
-3. 联系方式占位
-4. 服务信息占位
-5. 自定义占位
+你填两样：
+1. 按钮名字 - 比如：我的介绍 / 合作说明 / 收款信息 / 项目说明
+2. 要复制的正文 - 可以是一句话，也可以是多行
+
+如果你现在没想好，我会在应用里放一个“编辑内容”按钮。
 ```
 
-Fields:
+Requirements:
 
-- `title`
-- `template`
-- `visibility`: `demo`, `local`, or `user-provided`
-- `permission`: `clipboard.write`
+- Store the user's text locally.
+- If text is empty, show `编辑内容`; do not copy fake placeholder text.
+- Clipboard writes only after the user clicks.
 
-Use placeholders only:
+### 常用回复
 
-```text
-{{service_name}}
-{{contact_email}}
-{{delivery_notes}}
-{{placeholder_value}}
-```
-
-### 模板回复
-
-Ask:
+Prompt:
 
 ```markdown
-模板回复先选用途：
+常用回复要能直接用。你要它帮你生成哪类回复？
 
 1. 客户跟进
 2. 项目说明
 3. 预约确认
 4. 交付说明
-5. FAQ 回复
+5. 常见问题回复
+
+再填两样：
+1. 默认回复正文
+2. 每次会变的内容 - 比如客户名、项目名、时间、价格
 ```
 
-Fields:
+Requirements:
 
-- `title`
-- `template`
-- `variables`
-- `permission`: `clipboard.write`
+- Store template text locally.
+- Use plain labels like `客户名` and `项目名`.
+- If no body is provided, show `编辑回复模板` before use.
 
 ### 待办记录
 
-Ask:
+Prompt:
 
 ```markdown
-待办记录存在哪里？
+待办要记到哪里？小白默认选第 1 个。
 
-1. 本地 JSON
-2. 本地 Markdown
-3. 先只存在浏览器 localStorage
+1. 存在这个应用里 - 推荐
+2. 存成一个 Markdown 文件
+3. 先临时存在浏览器里
 ```
 
-Default: local JSON for Electron apps; localStorage for simple web prototypes.
+Default: local JSON for desktop apps.
 
 ### 状态面板
 
-Ask:
+Prompt:
 
 ```markdown
-状态面板显示什么？
+状态面板要看什么？不要只写“状态”两个字。
 
 1. 今日待办数量
-2. 一个本地脚本的最近结果
-3. 一个服务或网页入口状态
+2. 一个本地命令的最近结果
+3. 一个服务或网页是否正常
 4. 一个手动填写的状态
 ```
 
-Keep refresh manual or low-frequency in MVP.
+If data cannot be connected yet, provide `手动更新状态`.
 
-### 本地脚本
+### 文件夹入口
 
-Ask:
+Prompt:
 
 ```markdown
-本地脚本会执行命令，有风险。第一版建议只做 harmless 命令。
+这个按钮要打开哪个文件夹？
 
-选脚本类型：
+请填文件夹路径。比如：
+/Users/you/Documents/Project
+```
+
+If the path is unknown, keep the card editable and show `选择文件夹`.
+
+### 本地命令
+
+Prompt:
+
+```markdown
+本地命令会在你电脑上执行，有风险。第一版建议只做安全动作。
+
+选一种：
 1. 打开项目
 2. 运行检查
 3. 同步文件
 4. 自定义命令
+
+如果选自定义命令，必须把命令完整写出来，并在应用里点击前二次确认。
 ```
 
-Require explicit confirmation before implementation.
+### AI 提示词
 
-## Step 7: Generate MVP Spec
+Prompt:
+
+```markdown
+AI 提示词按钮点一下，要复制哪段提示词？
+
+你填两样：
+1. 按钮名字 - 比如：润色标题 / 总结文章 / 生成脚本
+2. 提示词正文 - 就是要复制给 AI 的那段话
+
+如果现在没想好，应用里必须有“编辑提示词”入口。
+```
+
+## Step 7: Generate First-Version Spec
 
 After choices are known, output:
 
 ```markdown
 **第一版光岛**
-| 模块 | 类型 | 动作 | 权限 | 验收 |
+| 按钮 | 点了做什么 | 还需要填什么 | 保存在哪里 | 怎么确认能用 |
 | --- | --- | --- | --- | --- |
 
-**本地配置**
-- modules stored in ...
-- variables stored in ...
-- placeholder data rule ...
+**安装入口**
+- macOS: 放到“应用程序”
+- Windows: 生成安装包、开始菜单入口或桌面快捷方式
+- 下次从哪里打开: ...
 
-**实现路线**
-1. ...
-2. ...
-3. ...
-
-**验收**
+**现在开始做**
 1. ...
 2. ...
 3. ...
@@ -317,5 +314,6 @@ When the user wants speed, choose:
   1. `发帖子`: open `https://fawen.fun`, removable
   2. `快捷入口`: open a quick-link management panel, removable
   3. `待办记录`: add a local todo
-- storage: local JSON or localStorage
-- platform: Electron desktop app if desktop behavior is needed; browser prototype if the user only needs a demo
+- save data in local JSON for desktop apps
+- platform: Electron desktop app
+- install target: macOS Applications or Windows installer/shortcut by default

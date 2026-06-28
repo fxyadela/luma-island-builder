@@ -32,7 +32,8 @@ main process
 ├── open URLs and paths
 ├── write clipboard
 ├── read/write local config
-└── optionally run confirmed scripts
+├── optionally run confirmed scripts
+└── support packaged app paths and user data paths
 
 preload
 └── expose narrow islandApi methods
@@ -50,7 +51,9 @@ local storage
 ├── modules.json
 ├── collapsed-display.json
 ├── variables.json
-└── todos.json / stats.json
+├── quick-links.json
+├── todos.json / stats.json
+└── user-provided copy/templates/prompts
 ```
 
 ## Window Behavior
@@ -163,7 +166,7 @@ IPC handlers should:
 - require confirmation for scripts
 - return structured results for UI feedback
 
-## MVP Implementation Order
+## First-Version Implementation Order
 
 1. Render static collapsed and expanded island.
 2. Add collapsed display config with `暂无用量 -> 100%` and a neutral placeholder for unreadable quota/status data.
@@ -199,6 +202,36 @@ Then add:
 - pointer dragging copied from `templates/luma-window-drag.js` or implemented equivalently
 - local module config
 - npm scripts for `dev`, `dev:renderer`, and `dev:electron`
+- packaging scripts so the result is a real app, not only a dev preview
+
+## Installable App Requirement
+
+Default delivery is an installed desktop app. A dev server is only for testing.
+
+Use the repo's existing packager if present. If there is no packager, add one such as `electron-builder` or an equivalent local packaging tool.
+
+Minimum user outcome:
+
+- macOS: produce a `.app` and either copy it to `/Applications` or give the user a `.dmg`/zip they can drag into “应用程序”.
+- Windows: produce an installer, portable `.exe`, Start menu entry, or desktop shortcut. Tell the user exactly where to open it next time.
+- Linux: produce an AppImage, `.deb`, `.rpm`, or a documented launcher.
+
+Suggested package scripts:
+
+```json
+{
+  "scripts": {
+    "build": "vite build",
+    "package": "electron-builder",
+    "package:mac": "electron-builder --mac",
+    "package:win": "electron-builder --win"
+  }
+}
+```
+
+Do not finish by saying only “run npm run dev”. That is not a user-facing app.
+
+Use persistent user data paths for saved links and copied text templates. Do not store user settings only in source files. In Electron, prefer `app.getPath("userData")` for local JSON files after packaging.
 
 If the user only needs a clickable demo, a browser-only Vite prototype is acceptable, but be explicit that it is not a true desktop island until wrapped in Electron/Tauri.
 
@@ -207,6 +240,7 @@ If the user only needs a clickable demo, a browser-only Vite prototype is accept
 After implementation, verify:
 
 - app starts without terminal errors
+- app is packaged or installed so the user can find it again
 - island appears
 - compact and expanded states work
 - default renderer CSS is copied or explicitly mapped to the existing design system
@@ -217,10 +251,11 @@ After implementation, verify:
 - compact state shows `100%` when Codex, Claude Code, or another quota source reports no usage
 - compact state avoids `--`, `NaN`, empty arcs, and fake reset times when quota sources are unavailable
 - each module performs its action
+- user-selected copy/template/prompt modules contain the user's content or show an obvious edit form
 - clipboard action writes only after click
 - local config survives restart when persistence is implemented
 - user-provided values are not committed to source
-- permissions are documented in the module table
+- what each action can do is documented in the module table
 
 For packaged desktop apps, source edits are not enough. If the user expects the installed app to change, rebuild the package, sync the installed output when needed, and restart the app before claiming the visible app is updated.
 

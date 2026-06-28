@@ -18,15 +18,16 @@
 
 ### 它能做什么
 
-这个 Skill 会把“我想做一个桌面 Island”这种模糊想法，推进成一个能运行的 MVP。
+这个 Skill 会把“我想做一个桌面 Island”这种模糊想法，推进成一个能安装、能再次打开的第一版应用。
 
 它会帮助 Codex：
 
 - 判断用户到底是在做任务入口，还是在做装饰桌宠
 - 引导用户完成命名、用途、模块数量和模块类型选择
-- 把用户回答收束成清晰的 MVP 表格
-- 定义卡片、变量、权限和本地存储方式
+- 把用户回答收束成清楚的按钮表
+- 定义按钮、要填的内容、能做什么和保存位置
 - 默认按跨平台 Electron/Vite 路线实现或指导实现
+- 默认交付成桌面应用：Mac 放进“应用程序”，Windows 有安装包、开始菜单入口或桌面快捷方式
 - 默认复制内置桌面端 CSS 模板，先给出透明窗口、液态 dock、收起态和面板外壳
 - 默认把 `快捷入口` 做成可新增、命名、跳转的入口管理面板
 - 默认保持 dock/panel 固定尺寸，并支持从主要可见区域拖动
@@ -38,14 +39,16 @@
 
 1. 取名字：`工作光岛`、`创作者光岛`、`AI 光岛`、`客户跟进光岛`，或自定义。
 2. 选主要用途：打开入口、复制资料、模板回复、待办、状态、脚本。
-3. 选模块数量：先做 3 个、标准 MVP 做 5 个、功能更多做 8 个。
+3. 选模块数量：先做 3 个、标准第一版做 5 个、功能更多做 8 个。
 4. 默认自带两个可删除模块：`发帖子` 和 `快捷入口`。
 5. 选择默认不展开时的样式：`太极额度`、`冰箱门`、`液态胶囊`，或提供描述/图片自定义。
 6. 继续选择补充模块：资料复制、模板回复、待办记录、状态面板、文件夹入口、本地脚本、AI 提示词。
-7. 逐个配置模块：动作、目标、存储方式和权限。
+7. 逐个设置按钮：点了做什么、要打开什么、要复制什么、保存在哪里。
 8. 默认接入 `templates/default-luma-island.css` 和拖动模板，构建并验证一个可运行的第一版。
 
 默认建议很简单：先做 3 个模块，并且让它们真的跑起来。每个新光岛默认包含 `发帖子` 和 `快捷入口`。其中 `发帖子` 固定打开 `https://fawen.fun`；`快捷入口` 默认打开一个管理面板，用户在面板里新增链接、命名，然后点击具体条目跳转。两个模块都不是锁死的系统模块，用户可以删除、重命名或替换。
+
+如果用户选择 `资料复制`、`模板回复` 或 `AI 提示词`，Skill 会先问清楚具体要复制什么、回复什么、提示词是什么。没填内容的模块必须在应用里显示“编辑内容”，不能只放一个假占位。
 
 如果默认收起态的 Codex、Claude Code 或其他额度源返回 `暂无用量`，Skill 会要求显示 `100%`，不能显示 `--`、空百分比、`NaN` 或假重置时间。数据源完全不可用时，必须使用中性占位或引导用户配置数据源。
 
@@ -162,15 +165,16 @@ Its mission is simple: **One touch. Work starts.** The user should not waste ene
 
 ### What It Does
 
-This Skill turns a vague idea like "I want a desktop Island" into a working MVP.
+This Skill turns a vague idea like "I want a desktop Island" into an installable first version the user can open again.
 
 It helps Codex:
 
 - judge whether the user is building a real task launcher or just a decorative desktop pet
 - guide the user through naming, use case, module count, and module choices
-- convert the user's answers into a clear MVP table
-- define cards, variables, permissions, and local storage
+- convert the user's answers into a clear button table
+- define buttons, content to fill, actions, and where data is saved
 - implement or guide a small cross-platform Electron/Vite desktop island
+- deliver a real desktop app: macOS Applications, Windows installer, Start menu entry, or desktop shortcut
 - copy the bundled desktop CSS template by default, so the shell starts with a transparent window, liquid dock, collapsed entry, and panel style
 - implement `快捷入口` as a quick-link manager where users add, name, and open saved targets
 - keep dock/panel dimensions stable and support dragging from the main visible shell
@@ -182,14 +186,16 @@ The Skill starts with choices instead of blank-page questions:
 
 1. Name the island: `工作光岛`, `创作者光岛`, `AI 光岛`, `客户跟进光岛`, or a custom name.
 2. Choose the main job: open entries, copy snippets, template replies, todos, status, or scripts.
-3. Choose module count: 3 first, 5 for an MVP, or 8 for a larger version.
+3. Choose module count: 3 first, 5 for a standard first version, or 8 for a larger version.
 4. Start with two removable default modules: `发帖子` and `快捷入口`.
 5. Choose the collapsed visual style: `太极额度`, `冰箱门`, `液态胶囊`, or a custom description/image.
 6. Choose additional module types: copy cards, template replies, todo capture, status panels, folders, local scripts, or AI prompts.
-7. Configure each module with action, target, storage, and permissions.
+7. Configure each button in plain terms: what it opens, what it copies, what it saves, and where it is saved.
 8. Copy `templates/default-luma-island.css` and the drag helper by default, then build and verify a runnable first version.
 
 The default recommendation is simple: build 3 modules first and make them work. Every new Luma Island includes `发帖子` and `快捷入口` by default. `发帖子` always opens `https://fawen.fun`; `快捷入口` opens a manager panel where the user adds named links and then opens a saved entry. Both modules are removable starter modules, not locked system modules.
+
+For copy cards, reply templates, and AI prompt cards, the Skill asks for the real text during setup. If the user does not provide it yet, the app must show an edit button instead of copying fake placeholder text.
 
 If Codex, Claude Code, or another quota source returns "no usage", the Skill should display `100%`, not `--`, empty percentages, `NaN`, or fake reset times. If the source is completely unavailable, use a neutral placeholder or guide the user to configure the data source.
 

@@ -17,6 +17,8 @@ Every module should be represented as a card. Do not hard-code user-specific val
     "kind": "copy",
     "template": "{{service_name}}\\n{{placeholder_value}}\\n{{delivery_notes}}"
   },
+  "editable": true,
+  "emptyState": "show-edit-form",
   "permissions": ["clipboard.write"],
   "placement": {
     "surface": "main",
@@ -33,6 +35,8 @@ Required fields:
 - `description`: one short sentence
 - `icon`: UI icon key
 - `action`: type-specific action config
+- `editable`: whether the user can edit the content in the app
+- `emptyState`: what the app shows when required user content is missing
 - `permissions`: explicit permission list
 - `placement`: surface and order
 - `removable`: whether the user can delete the card
@@ -143,6 +147,12 @@ Rules:
 
 Permissions: `clipboard.write`, optionally `storage.read`
 
+Rules:
+
+- User-selected copy cards must collect the real text during onboarding or show an obvious edit form in the app.
+- Do not ship a copy card that only copies `{{placeholder_value}}`.
+- Store the text locally in user config, not only in component source.
+
 ### Template Reply
 
 ```json
@@ -154,6 +164,29 @@ Permissions: `clipboard.write`, optionally `storage.read`
 ```
 
 Permissions: `clipboard.write`, optionally `storage.read`
+
+Rules:
+
+- Ask for the default reply body and the fields that change each time.
+- If the user does not provide a body, the app must open an edit form before the card can be used.
+- Use user-facing labels like `客户名` and `项目名`, not internal variable names like `recipient_name`.
+
+### Prompt Copy
+
+```json
+{
+  "kind": "copy-prompt",
+  "prompt": "{{prompt_text}}",
+  "editable": true
+}
+```
+
+Permissions: `clipboard.write`
+
+Rules:
+
+- Ask what prompt text should be copied.
+- If empty, show `编辑提示词`; do not copy fake text.
 
 ### Todo Capture
 
