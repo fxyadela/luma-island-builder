@@ -28,6 +28,7 @@ Identify:
 main process
 ├── create island window
 ├── expose safe IPC handlers
+├── expose narrow window-position handlers for pointer dragging
 ├── open URLs and paths
 ├── write clipboard
 ├── read/write local config
@@ -40,6 +41,7 @@ renderer
 ├── collapsed island entry
 ├── expanded module panel
 ├── module buttons
+├── quick-link manager panel
 ├── small settings/config view
 ├── status and feedback
 └── renderer stylesheet copied from templates/default-luma-island.css
@@ -60,6 +62,7 @@ For a desktop island:
 - keep the island near a screen edge by default
 - avoid stealing focus unless the user clicks it
 - preserve drag or placement if implemented
+- support dragging from the dock, panel, collapsed trigger, and module buttons without breaking normal click actions
 - be careful with transparent-window resizing; repeated bounds changes can cause lag
 
 Typical Electron settings to consider:
@@ -106,6 +109,29 @@ Use `.is-collapsed` on `.luma-stage` for compact mode. Add one theme class to th
 
 For existing repos, do not blindly replace the user's stylesheet. If the repo has no strong design system, adopt the template class names. If it already has a design system, carry over the transparent window, compact dock, collapsed trigger, panel shell, and small-button sizing patterns.
 
+The default template uses fixed dock and panel dimensions. Do not let the module list stretch to fill all remaining vertical space. If a user chooses five or more modules, keep module rows stable and scroll the list.
+
+## Dragging Model
+
+Do not rely only on a tiny header drag zone. The island should feel movable from nearly any visible area.
+
+Preferred implementation:
+
+1. Copy `templates/luma-window-drag.js` into the renderer.
+2. Expose narrow preload methods:
+
+```js
+window.lumaWindow = {
+  getBounds(),
+  setPosition(x, y)
+};
+```
+
+3. Implement main-process handlers that only return the current window bounds and set the current window position.
+4. Install the drag helper on `.luma-stage`.
+
+This pointer-based model allows short clicks to remain clicks and turns movement beyond a small threshold into window dragging. Inputs, textareas, selects, contenteditable nodes, and `.luma-no-drag` should remain editable.
+
 ## IPC Surface
 
 Expose narrow methods instead of broad filesystem or shell access.
@@ -116,7 +142,10 @@ Recommended API shape:
 window.islandApi = {
   getModules(),
   saveModules(modules),
+  getQuickLinks(),
+  saveQuickLinks(entries),
   openTarget(cardId),
+  openQuickLink(entryId),
   copyTemplate(cardId, variables),
   addTodo(text),
   getStatus(cardId),
@@ -136,12 +165,15 @@ IPC handlers should:
 
 1. Render static collapsed and expanded island.
 2. Add collapsed display config with `暂无用量 -> 100%` and a neutral placeholder for unreadable quota/status data.
-3. Load modules from local placeholder JSON.
-4. Implement `open-url` or `open-path`.
-5. Implement `copy-template`.
-6. Implement todo capture or status panel.
-7. Add minimal config editing only after actions work.
-8. Run and test every module.
+3. Add pointer-based window dragging.
+4. Load modules from local placeholder JSON.
+5. Implement `发帖子` as fixed `https://fawen.fun`.
+6. Implement `快捷入口` as a panel with add/name/open behavior.
+7. Implement `open-url` or `open-path` for saved entries.
+8. Implement `copy-template`.
+9. Implement todo capture or status panel.
+10. Add minimal config editing only after actions work.
+11. Run and test every module.
 
 Do not start with animations, themes, AI agents, sync, or marketplace logic.
 
@@ -162,6 +194,7 @@ Then add:
 - a preload file
 - a renderer island component
 - `src/styles.css` copied from `templates/default-luma-island.css`
+- pointer dragging copied from `templates/luma-window-drag.js` or implemented equivalently
 - local module config
 - npm scripts for `dev`, `dev:renderer`, and `dev:electron`
 
@@ -175,6 +208,9 @@ After implementation, verify:
 - island appears
 - compact and expanded states work
 - default renderer CSS is copied or explicitly mapped to the existing design system
+- module rows keep stable height when there are 5 or more modules
+- window can be dragged from the dock, panel, collapsed trigger, and module buttons while short clicks still work
+- `快捷入口` opens a manager panel and can add a named URL before opening it
 - compact state shows `100%` when Codex, Claude Code, or another quota source reports no usage
 - compact state avoids `--`, `NaN`, empty arcs, and fake reset times when quota sources are unavailable
 - each module performs its action

@@ -16,11 +16,11 @@ Use this reference whenever a user starts a new work island or gives a vague isl
 Every new 光岛 starts with two default modules:
 
 1. `发帖子` - a fixed publishing entry that opens `https://fawen.fun` by default.
-2. `快捷入口` - a generic quick-link group for commonly opened URLs, folders, apps, or projects.
+2. `快捷入口` - a quick-link management panel for adding, naming, editing, and opening URLs, folders, files, apps, or projects.
 
 These are starter modules, not locked system modules. Set `removable: true` for both. The user can delete, rename, reorder, or replace them during setup.
 
-For `发帖子`, use the fixed target `https://fawen.fun`. Keep this target fixed during initial setup. Other modules should use placeholders until the user provides targets.
+For `发帖子`, use the fixed target `https://fawen.fun`. Keep this target fixed during initial setup. `快捷入口` should open a panel first; do not turn it into a single placeholder URL button. Other modules should use placeholders until the user provides targets.
 
 ## Step 1: Name The Island
 
@@ -156,24 +156,33 @@ Do not ask for a different initial target. The module can be deleted or renamed,
 Ask:
 
 ```markdown
-快捷入口是默认模块，可以删除。这个快捷入口要放什么？
+快捷入口是默认模块，可以删除。它不是单个网址按钮，而是一个入口管理面板。
 
-选目标类型：
-1. 网页 URL
-2. 本地文件夹
-3. 本地文件
-4. 应用或项目
-5. 先保留占位，之后再填
-6. 删除这个默认模块
+你要怎么处理？
+1. 保留入口管理面板 - 点开后可新增链接、命名、再从列表跳转
+2. 保留面板，并先放 1 个占位链接
+3. 重命名这个面板
+4. 删除这个默认模块
 ```
 
 Fields:
 
-- `title`
-- `target_type`
-- `target`
+- `title`: `快捷入口`
+- `type`: `quick-link-panel`
+- `action.kind`: `open-panel`
+- `panel`: `quick-links`
+- `entries`: empty array by default, or one placeholder entry if the user chooses option 2
+- `entry_fields`: `title`, `target_type`, `target`
+- `storage`: local JSON for Electron apps; localStorage for simple web prototypes
 - `removable`: `true`
-- `permission`: `network.open` or `file.open`
+- `permission`: `storage.read`, `storage.write`, plus `network.open` or `file.open` when a saved entry is opened
+
+Panel requirements:
+
+- The first click on `快捷入口` opens the panel. It must not auto-jump to a random or placeholder URL.
+- The panel must include an add action for at least URL entries: name + URL.
+- If file/folder/app/project entries are supported, the panel should use the same list pattern with `target_type`.
+- Each saved entry opens only after the user clicks that specific entry.
 
 ### 资料复制
 
@@ -306,7 +315,7 @@ When the user wants speed, choose:
 - module count: 3
 - modules:
   1. `发帖子`: open `https://fawen.fun`, removable
-  2. `快捷入口`: open a placeholder project or URL, removable
+  2. `快捷入口`: open a quick-link management panel, removable
   3. `待办记录`: add a local todo
 - storage: local JSON or localStorage
 - platform: Electron desktop app if desktop behavior is needed; browser prototype if the user only needs a demo

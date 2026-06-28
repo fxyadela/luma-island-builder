@@ -28,7 +28,7 @@ Every module should be represented as a card. Do not hard-code user-specific val
 Required fields:
 
 - `id`: stable kebab-case id
-- `type`: one of `open-link`, `open-path`, `copy-template`, `template-reply`, `todo-capture`, `status-panel`, `run-script`, `prompt-copy`
+- `type`: one of `open-link`, `open-path`, `quick-link-panel`, `copy-template`, `template-reply`, `todo-capture`, `status-panel`, `run-script`, `prompt-copy`
 - `title`: short visible label
 - `description`: one short sentence
 - `icon`: UI icon key
@@ -62,15 +62,17 @@ Every new Luma Island should ship with two default starter cards:
   },
   {
     "id": "quick-entry",
-    "type": "open-link",
+    "type": "quick-link-panel",
     "title": "快捷入口",
-    "description": "打开一个常用网页、文件夹、应用或项目",
-    "icon": "external-link",
+    "description": "管理常用网页、文件夹、应用或项目入口",
+    "icon": "list-plus",
     "action": {
-      "kind": "open-url",
-      "url": "{{quick_entry_url}}"
+      "kind": "open-panel",
+      "panel": "quick-links"
     },
-    "permissions": ["network.open"],
+    "storage": "local-json",
+    "entries": [],
+    "permissions": ["storage.read", "storage.write", "network.open", "file.open"],
     "placement": {
       "surface": "main",
       "order": 1
@@ -80,7 +82,7 @@ Every new Luma Island should ship with two default starter cards:
 ]
 ```
 
-These cards are default starter cards, not locked system cards. The user may delete, rename, reorder, or replace them. `发帖子` intentionally uses the fixed URL `https://fawen.fun`; do not add extra setup-specific targets during initial setup.
+These cards are default starter cards, not locked system cards. The user may delete, rename, reorder, or replace them. `发帖子` intentionally uses the fixed URL `https://fawen.fun`; do not add extra setup-specific targets during initial setup. `快捷入口` is a panel, not a single target. It should open a quick-link manager first; only saved entries inside that panel should open URLs, folders, files, apps, or projects.
 
 ## Action Shapes
 
@@ -105,6 +107,30 @@ Permissions: `network.open`
 ```
 
 Permissions: `file.open`
+
+### Quick Link Panel
+
+```json
+{
+  "kind": "open-panel",
+  "panel": "quick-links",
+  "entrySchema": {
+    "title": "{{entry_title}}",
+    "target_type": "url",
+    "target": "https://example.com"
+  },
+  "storage": "local-json"
+}
+```
+
+Permissions: `storage.read`, `storage.write`, plus `network.open` for URL entries and `file.open` for file, folder, app, or project entries.
+
+Rules:
+
+- Clicking the `快捷入口` card opens the manager panel. It does not immediately open a placeholder target.
+- The manager supports adding at least URL entries with `title` and `target`.
+- Saved entries are opened only when the user clicks that specific entry.
+- Empty state should show an add action, not a fake link.
 
 ### Copy Template
 

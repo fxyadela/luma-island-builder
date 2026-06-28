@@ -37,6 +37,11 @@
   --luma-coral: #d97757;
   --luma-warning: #ffd37a;
   --luma-glow-angle: 0deg;
+  --luma-dock-width: 152px;
+  --luma-dock-height: 598px;
+  --luma-panel-width: 380px;
+  --luma-panel-height: 598px;
+  --luma-module-height: 44px;
 }
 
 * {
@@ -75,6 +80,18 @@ textarea {
   -webkit-app-region: no-drag;
 }
 
+.luma-stage.is-dragging,
+.luma-stage.is-dragging * {
+  cursor: grabbing !important;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.luma-drag-surface {
+  cursor: grab;
+  touch-action: none;
+}
+
 .luma-dock,
 .luma-panel,
 .luma-module-button,
@@ -96,8 +113,8 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 152px;
-  min-height: 598px;
+  width: var(--luma-dock-width);
+  height: var(--luma-dock-height);
   padding: 10px 8px;
   border-radius: 32px;
   background:
@@ -146,7 +163,7 @@ textarea {
   top: 6px;
   right: 4px;
   width: 80px;
-  min-height: 80px;
+  height: 80px;
   padding: 4px;
   border-radius: 50%;
   background:
@@ -325,7 +342,7 @@ textarea {
 
 .luma-theme-fridge.is-collapsed .luma-dock {
   width: 82px;
-  min-height: 82px;
+  height: 82px;
   border-radius: 26px;
   background:
     radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.86), transparent 34%),
@@ -380,7 +397,7 @@ textarea {
 
 .luma-theme-capsule.is-collapsed .luma-dock {
   width: 78px;
-  min-height: 84px;
+  height: 84px;
   border-radius: 999px;
   background:
     radial-gradient(circle at 72% 18%, rgba(128, 222, 255, 0.18), transparent 34%),
@@ -475,8 +492,13 @@ textarea {
 }
 
 .luma-module-list {
-  flex: 1;
+  flex: 0 0 auto;
+  align-content: start;
+  grid-auto-rows: minmax(var(--luma-module-height), auto);
+  max-height: 406px;
   margin-top: 12px;
+  overflow: auto;
+  padding-right: 1px;
 }
 
 .luma-module-button,
@@ -498,7 +520,7 @@ textarea {
   display: grid;
   grid-template-columns: 29px minmax(0, 1fr);
   align-items: center;
-  min-height: 44px;
+  min-height: var(--luma-module-height);
   gap: 6px;
   border-radius: 17px;
   padding: 6px 8px;
@@ -598,9 +620,9 @@ textarea {
   top: 18px;
   right: 176px;
   z-index: 2;
-  width: 380px;
-  max-height: 598px;
-  min-height: 598px;
+  width: var(--luma-panel-width);
+  height: var(--luma-panel-height);
+  max-height: var(--luma-panel-height);
   border-radius: 26px;
   padding: 12px;
   background:
@@ -672,7 +694,7 @@ textarea {
 }
 
 .luma-panel-body {
-  max-height: 520px;
+  max-height: calc(var(--luma-panel-height) - 78px);
   overflow: auto;
   padding: 1px 2px 1px 0;
 }
@@ -929,13 +951,13 @@ textarea {
 @media (max-height: 640px) {
   .luma-dock {
     top: 10px;
-    min-height: calc(100vh - 20px);
+    height: calc(100vh - 20px);
   }
 
   .luma-panel {
     top: 10px;
+    height: calc(100vh - 20px);
     max-height: calc(100vh - 20px);
-    min-height: calc(100vh - 20px);
   }
 
   .luma-panel-body {
