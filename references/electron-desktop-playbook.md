@@ -41,7 +41,8 @@ renderer
 ├── expanded module panel
 ├── module buttons
 ├── small settings/config view
-└── status and feedback
+├── status and feedback
+└── renderer stylesheet copied from templates/default-luma-island.css
 
 local storage
 ├── modules.json
@@ -81,6 +82,29 @@ new BrowserWindow({
 ```
 
 Adjust these to the target OS and product requirements. Do not weaken isolation just to make IPC easier.
+
+## Default Renderer Style
+
+For a new project, copy `templates/default-luma-island.css` into the renderer stylesheet before implementing custom UI. The default shell should use:
+
+```text
+.luma-stage
+├── .luma-dock
+│   ├── .luma-collapsed-trigger
+│   ├── .luma-orb
+│   ├── .luma-module-list
+│   │   └── .luma-module-button
+│   └── .luma-tools
+└── .luma-panel
+```
+
+Use `.is-collapsed` on `.luma-stage` for compact mode. Add one theme class to the same root node:
+
+- `.luma-theme-taiji`
+- `.luma-theme-fridge`
+- `.luma-theme-capsule`
+
+For existing repos, do not blindly replace the user's stylesheet. If the repo has no strong design system, adopt the template class names. If it already has a design system, carry over the transparent window, compact dock, collapsed trigger, panel shell, and small-button sizing patterns.
 
 ## IPC Surface
 
@@ -137,6 +161,7 @@ Then add:
 - an Electron main file
 - a preload file
 - a renderer island component
+- `src/styles.css` copied from `templates/default-luma-island.css`
 - local module config
 - npm scripts for `dev`, `dev:renderer`, and `dev:electron`
 
@@ -149,6 +174,7 @@ After implementation, verify:
 - app starts without terminal errors
 - island appears
 - compact and expanded states work
+- default renderer CSS is copied or explicitly mapped to the existing design system
 - compact state shows `100%` when Codex, Claude Code, or another quota source reports no usage
 - compact state avoids `--`, `NaN`, empty arcs, and fake reset times when quota sources are unavailable
 - each module performs its action

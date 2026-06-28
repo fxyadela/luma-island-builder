@@ -110,6 +110,8 @@ Default:
 - If the user is tracking quota or status, choose `太极额度`.
 - If the user is mostly opening links, copying snippets, or posting, choose `冰箱门`.
 
+Implementation default: after this choice, copy `templates/default-luma-island.css` into the renderer stylesheet and apply the matching root class: `.luma-theme-taiji`, `.luma-theme-fridge`, or `.luma-theme-capsule`.
+
 Quota/status fallback:
 
 - If Codex or Claude Code data exists, display the real data.

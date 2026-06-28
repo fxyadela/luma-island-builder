@@ -25,6 +25,25 @@ description: "引导用户通过对话创建、原型化或实现一个跨平台
 
 用户要求“做出来”时，不要停在计划。除非用户明确只要方案，否则必须继续推进到可运行第一版。
 
+## 默认视觉基线
+
+新建光岛项目时，不要只用口头描述让模型“做得像桌面端”。必须默认复制 `templates/default-luma-island.css` 到渲染端样式文件，例如 `src/styles.css`，再围绕这套类名实现 UI。
+
+默认 CSS 负责这些基础体验：
+
+- 透明桌面窗口、无页面背景、不可拖拽交互控件
+- 右侧竖向液态 dock、收起态入口、展开态信息面板
+- 三种收起态主题：`luma-theme-taiji`、`luma-theme-fridge`、`luma-theme-capsule`
+- 模块按钮、图标位、状态条、分段按钮、卡片、输入框和 toast
+- `暂无用量 -> 100%` 的小尺寸额度显示空间，避免 `--`、`NaN` 和空弧
+
+使用规则：
+
+- 新项目：先拷贝模板 CSS，再写 React/Vue/Svelte/HTML 结构，不要重新发明一套样式。
+- 已有项目：如果没有成熟设计系统，优先接入模板类名；如果已有设计系统，只吸收窗口透明、dock、收起态和面板这几个外壳模式，不要覆盖用户原样式。
+- 模板 CSS 是视觉基线，不是业务功能。不要把用户资料、链接、真实账号、报价、合作信息写进 CSS。
+- 如需深度定制，先保留 `.luma-stage`、`.luma-dock`、`.luma-collapsed-trigger`、`.luma-panel`、`.luma-module-button` 这组结构，再改变量、尺寸和主题。
+
 ## 启动引导
 
 模糊需求或新项目，必须先使用 `references/guided-onboarding.md` 的引导流程。
@@ -63,6 +82,7 @@ description: "引导用户通过对话创建、原型化或实现一个跨平台
 - `references/card-and-pack-model.md`：定义卡片 schema、模板包、变量、权限、本地配置、seed 数据。
 - `references/collapsed-display-and-styles.md`：定义收起态额度显示、暂无用量兜底、三种默认视觉样式。
 - `references/electron-desktop-playbook.md`：实现或改造跨平台 Electron 桌面工作岛。
+- `templates/default-luma-island.css`：默认桌面端视觉模板。新建项目时必须复制；已有项目需要默认视觉基线时加载。
 
 ## 产品规则
 
@@ -85,17 +105,19 @@ description: "引导用户通过对话创建、原型化或实现一个跨平台
 
 1. 先读 `package.json`、app 入口、renderer 文件、桌面壳文件、现有配置和存储模式。
 2. 找到岛 UI、原生窗口行为、IPC bridge、本地配置分别应该放在哪里。
-3. 编辑范围只围绕引导阶段选定的 MVP 模块。
-4. 保留用户已有改动，不把仓库里的现有内容搬进示例。
-5. 运行应用，并测试每个模块。
+3. 判断是否已有清晰设计系统；没有则接入 `templates/default-luma-island.css` 的外壳类名，有则只迁移必要的透明窗口、dock、收起态和面板模式。
+4. 编辑范围只围绕引导阶段选定的 MVP 模块。
+5. 保留用户已有改动，不把仓库里的现有内容搬进示例。
+6. 运行应用，并测试每个模块。
 
 新项目：
 
 1. 除非用户指定其他技术栈，否则从最小 Electron + Vite app 开始。
 2. 实现一个 always-on-top 桌面窗口，包含收起态和展开态。
-3. 用本地 JSON config 存模块，demo 数据只能使用占位内容。
-4. 把 3 个已选模块端到端做通。
-5. 本地运行，并提供 app URL 或桌面启动命令。
+3. 复制 `templates/default-luma-island.css` 到 renderer 样式入口，并按 `.luma-stage`、`.luma-dock`、`.luma-collapsed-trigger`、`.luma-panel`、`.luma-module-button` 这套结构实现第一屏。
+4. 用本地 JSON config 存模块，demo 数据只能使用占位内容。
+5. 把 3 个已选模块端到端做通。
+6. 本地运行，并提供 app URL 或桌面启动命令。
 
 ## 输出格式
 
@@ -144,6 +166,7 @@ description: "引导用户通过对话创建、原型化或实现一个跨平台
 
 - 桌面或应用壳里有可见的岛入口
 - 有收起态和展开态，或一个等价的紧凑/完整视图
+- 新项目已接入 `templates/default-luma-island.css`，或已有项目明确说明采用了等价外壳样式
 - 配置了 3-5 个模块
 - 每个模块都能执行真实动作
 - 本地配置不硬编码真实业务内容

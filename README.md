@@ -27,6 +27,7 @@
 - 把用户回答收束成清晰的 MVP 表格
 - 定义卡片、变量、权限和本地存储方式
 - 默认按跨平台 Electron/Vite 路线实现或指导实现
+- 默认复制内置桌面端 CSS 模板，先给出透明窗口、液态 dock、收起态和面板外壳
 - 验证每个模块是否真的完成了一个动作
 
 ### 引导流程
@@ -40,7 +41,7 @@
 5. 选择默认不展开时的样式：`太极额度`、`冰箱门`、`液态胶囊`，或提供描述/图片自定义。
 6. 继续选择补充模块：资料复制、模板回复、待办记录、状态面板、文件夹入口、本地脚本、AI 提示词。
 7. 逐个配置模块：动作、目标、存储方式和权限。
-8. 构建并验证一个可运行的第一版。
+8. 默认接入 `templates/default-luma-island.css`，构建并验证一个可运行的第一版。
 
 默认建议很简单：先做 3 个模块，并且让它们真的跑起来。每个新光岛默认包含 `发帖子` 和 `快捷入口`。其中 `发帖子` 固定打开 `https://fawen.fun`；两个模块都不是锁死的系统模块，用户可以删除、重命名或替换。
 
@@ -96,6 +97,8 @@ Use $luma-island-builder to help me build a Luma Island desktop work island for 
 ├── SKILL.md
 ├── agents/
 │   └── openai.yaml
+├── templates/
+│   └── default-luma-island.css
 └── references/
     ├── card-and-pack-model.md
     ├── collapsed-display-and-styles.md
@@ -139,6 +142,7 @@ It helps Codex:
 - convert the user's answers into a clear MVP table
 - define cards, variables, permissions, and local storage
 - implement or guide a small cross-platform Electron/Vite desktop island
+- copy the bundled desktop CSS template by default, so the shell starts with a transparent window, liquid dock, collapsed entry, and panel style
 - verify that every module performs a real action
 
 ### Guided Flow
@@ -152,7 +156,7 @@ The Skill starts with choices instead of blank-page questions:
 5. Choose the collapsed visual style: `太极额度`, `冰箱门`, `液态胶囊`, or a custom description/image.
 6. Choose additional module types: copy cards, template replies, todo capture, status panels, folders, local scripts, or AI prompts.
 7. Configure each module with action, target, storage, and permissions.
-8. Build and verify a runnable first version.
+8. Copy `templates/default-luma-island.css` by default, then build and verify a runnable first version.
 
 The default recommendation is simple: build 3 modules first and make them work. Every new Luma Island includes `发帖子` and `快捷入口` by default. `发帖子` always opens `https://fawen.fun`; both modules are removable starter modules, not locked system modules.
 
@@ -208,6 +212,8 @@ Chinese example:
 ├── SKILL.md
 ├── agents/
 │   └── openai.yaml
+├── templates/
+│   └── default-luma-island.css
 └── references/
     ├── card-and-pack-model.md
     ├── collapsed-display-and-styles.md
