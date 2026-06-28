@@ -42,6 +42,11 @@
   --luma-panel-width: 380px;
   --luma-panel-height: 598px;
   --luma-module-height: 44px;
+  --luma-collapsed-dock-width: 80px;
+  --luma-collapsed-dock-height: 80px;
+  --luma-collapsed-trigger-width: 72px;
+  --luma-collapsed-trigger-height: 72px;
+  --luma-collapsed-ring-outset: -5px;
 }
 
 * {
@@ -162,9 +167,11 @@ textarea {
 .luma-stage.is-collapsed .luma-dock {
   top: 6px;
   right: 4px;
-  width: 80px;
-  height: 80px;
-  padding: 4px;
+  display: grid;
+  place-items: center;
+  width: var(--luma-collapsed-dock-width);
+  height: var(--luma-collapsed-dock-height);
+  padding: 0;
   border-radius: 50%;
   background:
     radial-gradient(circle at 34% 24%, rgba(255, 255, 255, 0.24), rgba(96, 188, 248, 0.12) 42%, transparent 62%),
@@ -183,7 +190,7 @@ textarea {
 }
 
 .luma-stage.is-collapsed .luma-dock::after {
-  inset: -5px;
+  inset: var(--luma-collapsed-ring-outset);
   padding: 0;
   background: conic-gradient(
     from 0deg,
@@ -210,8 +217,8 @@ textarea {
   position: relative;
   display: none;
   place-items: center;
-  width: 72px;
-  height: 72px;
+  width: var(--luma-collapsed-trigger-width);
+  height: var(--luma-collapsed-trigger-height);
   border: 0;
   border-radius: 50%;
   padding: 0;
@@ -229,6 +236,11 @@ textarea {
 
 .luma-stage.is-collapsed .luma-collapsed-trigger {
   display: grid;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  transform: translate(-50%, -50%);
 }
 
 .luma-collapsed-trigger::after {
@@ -341,8 +353,12 @@ textarea {
 }
 
 .luma-theme-fridge.is-collapsed .luma-dock {
-  width: 82px;
-  height: 82px;
+  --luma-collapsed-dock-width: 82px;
+  --luma-collapsed-dock-height: 82px;
+  --luma-collapsed-trigger-width: 73px;
+  --luma-collapsed-trigger-height: 73px;
+  width: var(--luma-collapsed-dock-width);
+  height: var(--luma-collapsed-dock-height);
   border-radius: 26px;
   background:
     radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.86), transparent 34%),
@@ -367,8 +383,8 @@ textarea {
 }
 
 .luma-theme-fridge.is-collapsed .luma-collapsed-trigger {
-  width: 73px;
-  height: 73px;
+  width: var(--luma-collapsed-trigger-width);
+  height: var(--luma-collapsed-trigger-height);
   border-radius: 25px;
   background:
     radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.88), transparent 34%),
@@ -396,8 +412,12 @@ textarea {
 }
 
 .luma-theme-capsule.is-collapsed .luma-dock {
-  width: 78px;
-  height: 84px;
+  --luma-collapsed-dock-width: 78px;
+  --luma-collapsed-dock-height: 84px;
+  --luma-collapsed-trigger-width: 67px;
+  --luma-collapsed-trigger-height: 78px;
+  width: var(--luma-collapsed-dock-width);
+  height: var(--luma-collapsed-dock-height);
   border-radius: 999px;
   background:
     radial-gradient(circle at 72% 18%, rgba(128, 222, 255, 0.18), transparent 34%),
@@ -421,8 +441,8 @@ textarea {
 }
 
 .luma-theme-capsule.is-collapsed .luma-collapsed-trigger {
-  width: 67px;
-  height: 78px;
+  width: var(--luma-collapsed-trigger-width);
+  height: var(--luma-collapsed-trigger-height);
   border-radius: 999px;
   background:
     radial-gradient(circle at 70% 18%, rgba(154, 234, 255, 0.16), transparent 34%),

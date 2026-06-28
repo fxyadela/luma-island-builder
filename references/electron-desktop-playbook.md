@@ -111,6 +111,8 @@ For existing repos, do not blindly replace the user's stylesheet. If the repo ha
 
 The default template uses fixed dock and panel dimensions. Do not let the module list stretch to fill all remaining vertical space. If a user chooses five or more modules, keep module rows stable and scroll the list.
 
+Collapsed mode is layout-sensitive. Do not re-parent `.luma-collapsed-trigger`, wrap it in another layout container, or move the outer ring into a separate element. In collapsed mode the dock becomes a fixed-size center box; `.luma-dock::after` draws the outer ring and `.luma-collapsed-trigger` is absolutely centered inside it. This is what keeps the ball and ring attached.
+
 ## Dragging Model
 
 Do not rely only on a tiny header drag zone. The island should feel movable from nearly any visible area.
@@ -209,6 +211,7 @@ After implementation, verify:
 - compact and expanded states work
 - default renderer CSS is copied or explicitly mapped to the existing design system
 - module rows keep stable height when there are 5 or more modules
+- collapsed ball and outer ring are concentric in every built-in theme
 - window can be dragged from the dock, panel, collapsed trigger, and module buttons while short clicks still work
 - `快捷入口` opens a manager panel and can add a named URL before opening it
 - compact state shows `100%` when Codex, Claude Code, or another quota source reports no usage

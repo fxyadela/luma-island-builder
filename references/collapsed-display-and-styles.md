@@ -6,6 +6,16 @@
 
 默认实现不要只写风格描述。新项目必须复制 `templates/default-luma-island.css`，并用其中的 `.luma-stage`、`.luma-dock`、`.luma-collapsed-trigger`、`.luma-panel`、`.luma-module-button` 作为 UI 外壳。这个模板已经包含透明桌面窗口、液态 dock、收起态发光环、面板、模块按钮和三种收起态主题。
 
+收起态结构必须保持为：
+
+```text
+.luma-stage.is-collapsed
+└── .luma-dock
+    └── .luma-collapsed-trigger
+```
+
+不要把外环、球体、额度文字拆成不同的定位容器。外环由 `.luma-dock::after` 画出来，球体由 `.luma-collapsed-trigger` 画出来；collapsed 状态下两者都以 `.luma-dock` 中心绝对居中。任何自定义都必须先保证同心，再调材质。
+
 ## 数据兜底规则
 
 不要渲染坏掉的额度显示。
@@ -54,6 +64,7 @@
 默认 CSS 类：在根节点使用 `.luma-stage.is-collapsed.luma-theme-taiji`，收起按钮内使用 `.luma-quota-taiji`、`.luma-taiji-core`、`.luma-taiji-side`。
 
 - 形状：成对圆形、环形、太极式左右平衡标记。
+- 同心要求：外环和中心球体必须绑定在 `.luma-dock` 的同一个中心点。
 - 适合：Codex/Claude Code 额度、双来源状态、AI 工作面板。
 - 正常状态：显示两个额度/状态值。
 - 暂无用量：显示 `100%`，不要显示 `--` 或昵称。
@@ -115,6 +126,7 @@
 - `暂无用量` 显示为 `100%`，不显示 `--`
 - 不显示未配置的账号名或调试信息
 - 用户能清楚知道如何展开光岛
+- 外环和球体同心，不出现环在外、球偏到另一边的分离感
 - 新项目已接入默认 CSS 模板，或已有项目给出等价样式映射
 - 视觉样式记录在本地配置里，而不是散落在多个硬编码分支里
 - 数字、标签、图标在小尺寸下不重叠、不挤压、不溢出
