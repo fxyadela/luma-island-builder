@@ -317,17 +317,13 @@ Prefer the narrowest permission. Ask before adding `clipboard.read`, `file.read`
 
 ## Storage Defaults
 
-For Electron:
+For Electron/Tauri/native desktop apps:
 
 - module config: app userData JSON
 - user variables: separate local JSON or OS credential storage when available
 - todos: local JSON or Markdown chosen by user
 - click stats: local JSON
 
-For browser-only prototypes:
-
-- module config: localStorage
-- user variables: placeholders only
-- todos: localStorage
+Do not use browser-only `localStorage` as the default persistence path. A web renderer can use temporary state during development, but the real island should save through the desktop shell into app user data.
 
 Do not store user-provided values in committed source files.

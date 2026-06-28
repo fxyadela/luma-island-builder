@@ -219,10 +219,10 @@ Prompt:
 
 1. 存在这个应用里 - 推荐
 2. 存成一个 Markdown 文件
-3. 先临时存在浏览器里
+3. 先只显示在本次打开的应用里
 ```
 
-Default: local JSON for desktop apps.
+Default: local JSON under the desktop app's user data folder.
 
 ### 状态面板
 

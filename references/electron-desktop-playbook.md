@@ -2,6 +2,8 @@
 
 Use this reference when implementing a desktop work island with Electron on macOS, Windows, or Linux. Adapt the route to the user's repo and operating system; do not force exact file names or one operating system's packaging flow.
 
+Hard rule: a Luma Island is not complete if it only runs as a web page, localhost tab, static HTML file, or browser-only Vite app. Vite may be used as the renderer, but the user-facing result must run inside Electron, Tauri, or another native desktop shell.
+
 ## Existing Repo First Pass
 
 Before editing, inspect:
@@ -12,6 +14,8 @@ Before editing, inspect:
 - renderer entry and component structure
 - existing local config/storage files
 - packaging scripts, if the app is already installed
+
+If the repo has only a web renderer and no desktop shell, add the desktop shell before claiming the island exists. A browser preview is only a renderer test.
 
 Identify:
 
@@ -25,7 +29,7 @@ Identify:
 ## Minimal Architecture
 
 ```text
-main process
+desktop shell / main process
 ├── create island window
 ├── expose safe IPC handlers
 ├── expose narrow window-position handlers for pointer dragging
@@ -184,13 +188,21 @@ Do not start with animations, themes, AI agents, sync, or marketplace logic.
 
 ## New Project Default
 
-If the user has no repo and asks to build a real desktop app, use:
+If the user has no repo and asks to build a real desktop app, use the bundled scaffold first:
+
+```bash
+node ~/.codex/skills/luma-island-builder/scripts/create-electron-luma.mjs --project /path/to/luma-island-app --name "工作光岛"
+```
+
+This creates the Electron main process, preload file, Vite renderer, default Luma CSS, drag helper, local persistence handlers, and package scripts.
+
+Manual fallback: create an Electron app with a Vite renderer. Do not stop after creating the Vite project.
 
 ```bash
 npm create vite@latest luma-island-demo -- --template react
 cd luma-island-demo
 npm install
-npm install --save-dev electron concurrently wait-on
+npm install --save-dev electron electron-builder concurrently wait-on
 ```
 
 Then add:
@@ -203,6 +215,8 @@ Then add:
 - local module config
 - npm scripts for `dev`, `dev:renderer`, and `dev:electron`
 - packaging scripts so the result is a real app, not only a dev preview
+
+The first runnable check should be the desktop shell, for example `npm run dev:electron`, not just `npm run dev`. If a command opens a browser tab, treat that as a renderer check only and continue until the desktop window opens.
 
 ## Installable App Requirement
 
@@ -229,16 +243,17 @@ Suggested package scripts:
 }
 ```
 
-Do not finish by saying only “run npm run dev”. That is not a user-facing app.
+Do not finish by saying only “run npm run dev”. That is not a user-facing app. Do not tell the user the work is done if the visible result is a browser tab or localhost page.
 
 Use persistent user data paths for saved links and copied text templates. Do not store user settings only in source files. In Electron, prefer `app.getPath("userData")` for local JSON files after packaging.
 
-If the user only needs a clickable demo, a browser-only Vite prototype is acceptable, but be explicit that it is not a true desktop island until wrapped in Electron/Tauri.
+Only build a browser-only prototype when the user explicitly says they do not want a desktop app yet. In that case, state clearly that it is not a real Luma Island until it is wrapped in Electron/Tauri/native shell.
 
 ## Verification
 
 After implementation, verify:
 
+- app opens as a desktop window, not a browser tab
 - app starts without terminal errors
 - app is packaged or installed so the user can find it again
 - island appears

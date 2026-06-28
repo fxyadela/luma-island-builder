@@ -12,7 +12,7 @@ This is not decorative copy. Use it as a product test: every default module shou
 
 ## Positioning
 
-A desktop work island is a small, persistent task layer at the edge of the desktop. It gathers the actions users repeat every day:
+A desktop work island is a small, persistent task layer at the edge of the desktop. It runs as a real desktop app, not as a browser tab. It gathers the actions users repeat every day:
 
 - open common links, tools, folders, and projects
 - copy reusable information
@@ -73,6 +73,7 @@ Default to three cards:
 - Do not make `快捷入口` a single auto-jump button with a random placeholder URL.
 - Do not create copy/template/prompt cards that only contain placeholders.
 - Do not make the window draggable only from a header while the rest of the island feels stuck.
+- Do not ship a browser tab, localhost page, static HTML file, or Vite-only web app when the user asked for a desktop island.
 - Do not show user-facing setup text full of technical words like schema, permission, IPC, storage, or target.
 - Do not turn onboarding into a long questionnaire. Ask, lock, build.
 
@@ -80,8 +81,8 @@ Default to three cards:
 
 A first version passes if the user can:
 
-1. see the island
-2. open it
+1. open the island as a desktop app, not a browser page
+2. see the island
 3. click each configured module
 4. get a real result from each click
 5. open `快捷入口`, add a named URL, and click that saved entry to open it
