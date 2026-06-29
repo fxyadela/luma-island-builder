@@ -59,13 +59,13 @@ description: "引导用户通过对话创建、原型化、实现、安装或升
 
 ## 默认视觉基线
 
-新建光岛项目时，不要只用口头描述让模型“做得像桌面端”。必须默认复制 `templates/default-luma-island.css` 到渲染端样式文件，例如 `src/styles.css`，再围绕这套类名实现 UI。
+新建光岛项目时，不要只用口头描述让模型“做得像桌面端”。必须默认复制 `templates/default-luma-island.css` 到渲染端样式文件，例如 `src/styles.css`，再围绕当前桌面端同款类名实现 UI。这个模板已经内置当前桌面端外壳，目标是外观一模一样，仅模块内容不同。
 
 默认 CSS 负责这些基础体验：
 
 - 透明桌面窗口、无页面背景、不可拖拽交互控件
 - 右侧竖向液态 dock、收起态入口、展开态信息面板
-- 三种收起态主题：`luma-theme-taiji`、`luma-theme-fridge`、`luma-theme-capsule`
+- 三种收起态主题：`theme-taiji`、`theme-fridge`、`theme-capsule`
 - 模块按钮、图标位、状态条、分段按钮、卡片、输入框和 toast
 - 固定宽度和固定高度的 dock/panel，模块行固定高度，模块数量增加时滚动，不把按钮拉伸填满
 - 可拖动窗口的交互模板，短按触发点击，拖动超过阈值才移动窗口
@@ -73,11 +73,12 @@ description: "引导用户通过对话创建、原型化、实现、安装或升
 
 使用规则：
 
-- 新项目：先拷贝模板 CSS，再写 React/Vue/Svelte/HTML 结构，不要重新发明一套样式。
+- 新项目：先拷贝模板 CSS，再按现有桌面端结构写 React/Vue/Svelte/HTML，不要重新发明一套样式。
 - 已有项目：如果没有成熟设计系统，优先接入模板类名；如果已有设计系统，只吸收窗口透明、dock、收起态和面板这几个外壳模式，不要覆盖用户原样式。
 - 模板 CSS 是视觉基线，不是业务功能。不要把用户资料、链接、真实账号、报价、合作信息写进 CSS。
-- 如需深度定制，先保留 `.luma-stage`、`.luma-dock`、`.luma-collapsed-trigger`、`.luma-panel`、`.luma-module-button` 这组结构，再改变量、尺寸和主题。
-- 收起态不要拆结构：`.luma-collapsed-trigger` 必须是 `.luma-dock` 的直系子元素。外环使用 `.luma-dock::after`，球体使用 `.luma-collapsed-trigger`，两者靠 CSS 绝对居中绑定；不要把外环和球体放进两个互不相干的容器。
+- 如需深度定制，先保留 `.shortcut-stage`、`.liquid-dock`、`.collapsed-quota-rail`、`.collapsed-center`、`.dock-orb`、`.shortcut-list`、`.shortcut-button`、`.dock-tools`、`.info-panel`、`.panel-head` 这组结构，再替换模块数据。
+- 收起态不要拆结构：`.collapsed-center` 必须在 `.collapsed-quota-rail` 里，`.collapsed-quota-rail` 必须在 `.liquid-dock` 里；外环、球体、额度内容共用同一个中心点。不要把外环和球体放进两个互不相干的容器。
+- 生成项目默认复制 `assets/prototypes/*/idle.png`，给 `.dock-orb img` 使用；不要用文字、emoji 或临时图标替代头像球。
 
 ## 启动引导
 
@@ -119,6 +120,7 @@ description: "引导用户通过对话创建、原型化、实现、安装或升
 - `references/electron-desktop-playbook.md`：实现或改造跨平台 Electron 桌面工作岛。
 - `templates/default-luma-island.css`：默认桌面端视觉模板。新建项目时必须复制；已有项目需要默认视觉基线时加载。
 - `templates/luma-window-drag.js`：默认拖动模板。Electron 项目需要让岛上大部分区域都能拖动时加载。
+- `assets/prototypes/`：当前桌面端头像球资产。新建项目时必须复制到 `src/assets/prototypes/`。
 - `scripts/create-electron-luma.mjs`：新建项目脚手架。没有现成仓库时优先运行它，直接生成 Electron 桌面应用骨架，不要从网页项目开始。
 - `scripts/upgrade-style.mjs`：给已生成的旧项目做原地样式升级。只安装新版 CSS，可选复制拖动模板，不修改用户模块、链接、变量或本地数据。
 
@@ -139,7 +141,7 @@ description: "引导用户通过对话创建、原型化、实现、安装或升
 - 文本类动作优先“预览/复制”：先生成或展示，用户确认后再复制，不要盲贴。
 - 每个模块都要用真实动作证明价值：打开、复制、记录、运行或显示。
 - 默认 dock 和 panel 尺寸固定；模块数量增加时列表滚动，不要让 5 个或 8 个模块自动拉伸填满整根 dock。
-- 收起态必须验收“球体和外环同心”。如果外环跟球分离，优先检查是否破坏了 `.luma-dock > .luma-collapsed-trigger` 结构，或是否覆盖了 collapsed 状态下的绝对居中 CSS。
+- 收起态必须验收“球体和外环同心”。如果外环跟球分离，优先检查是否破坏了 `.liquid-dock > .collapsed-quota-rail > .collapsed-center` 结构，或是否覆盖了 collapsed 状态下的尺寸和定位 CSS。
 - 桌面窗口必须支持拖动。优先使用 pointer 阈值拖动：点按不移动时仍执行点击，移动超过阈值时拖动窗口并压掉误触点击。不要只把拖动能力放在标题栏或一个小把手上。
 - 如果实现结果打开的是浏览器标签页、localhost 网页或静态 HTML，必须当作未完成，继续补 Electron/Tauri/原生桌面壳和安装入口。
 - 交互文案必须用大白话。用户可见文字避免 `MVP`、`schema`、`IPC`、`permission`、`storage`、`config`、`target_type` 这类术语；改成“第一版”“能做什么”“保存在哪里”“要打开什么”“要复制什么”。
@@ -168,12 +170,13 @@ description: "引导用户通过对话创建、原型化、实现、安装或升
 
 1. 除非用户指定其他真实桌面技术栈，否则先运行：`node ~/.codex/skills/luma-island-builder/scripts/create-electron-luma.mjs --project <项目路径> --name "<应用名>"`。
 2. 实现一个 always-on-top 桌面窗口，包含收起态和展开态。
-3. 复制 `templates/default-luma-island.css` 到 renderer 样式入口，并按 `.luma-stage`、`.luma-dock`、`.luma-collapsed-trigger`、`.luma-panel`、`.luma-module-button` 这套结构实现第一屏。
-4. 接入 `templates/luma-window-drag.js` 或等价逻辑，让 dock、面板、模块按钮、收起态都支持拖动，同时保留短按点击。
-5. 用本地文件保存模块，demo 数据只能使用占位内容。
-6. 把 3 个已选模块端到端做通。
-7. 打包成可再次打开的应用。macOS 至少生成 `.app` 并放到 `/Applications` 或给出拖入“应用程序”的交付包；Windows 至少生成安装包、开始菜单入口或桌面快捷方式。
-8. 本地运行，并告诉用户下次从哪里打开，不要只给一次性的本地预览地址。
+3. 复制 `templates/default-luma-island.css` 到 renderer 样式入口，并按 `.shortcut-stage`、`.liquid-dock`、`.collapsed-center`、`.dock-orb`、`.shortcut-list`、`.shortcut-button`、`.info-panel` 这套结构实现第一屏。
+4. 复制 `assets/prototypes/` 到 `src/assets/prototypes/`，让展开态头像球使用真实图片资产。
+5. 接入 `templates/luma-window-drag.js` 或等价逻辑，让 dock、面板、模块按钮、收起态都支持拖动，同时保留短按点击。
+6. 用本地文件保存模块，demo 数据只能使用占位内容。
+7. 把 3 个已选模块端到端做通。
+8. 打包成可再次打开的应用。macOS 至少生成 `.app` 并放到 `/Applications` 或给出拖入“应用程序”的交付包；Windows 至少生成安装包、开始菜单入口或桌面快捷方式。
+9. 本地运行，并告诉用户下次从哪里打开，不要只给一次性的本地预览地址。
 
 ## 输出格式
 
@@ -223,6 +226,7 @@ description: "引导用户通过对话创建、原型化、实现、安装或升
 - Electron/Tauri/原生桌面壳里有可见的岛入口；浏览器网页不合格
 - 有收起态和展开态，或一个等价的紧凑/完整视图
 - 新项目已接入 `templates/default-luma-island.css`，或已有项目明确说明采用了等价外壳样式
+- 新项目外壳类名命中 `.shortcut-stage`、`.liquid-dock`、`.collapsed-center`、`.dock-orb`、`.shortcut-button`、`.info-panel`；仅模块数据和面板内容可以不同
 - 配置了 3-5 个模块
 - `快捷入口` 打开的是可新增/命名/跳转的管理面板，不是未配置就自动跳转到占位网址
 - 每个模块都能执行真实动作

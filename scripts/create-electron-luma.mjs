@@ -7,6 +7,7 @@ const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const skillRoot = path.resolve(scriptDir, "..");
 const templateCss = path.join(skillRoot, "templates", "default-luma-island.css");
 const dragHelper = path.join(skillRoot, "templates", "luma-window-drag.js");
+const prototypeAssets = path.join(skillRoot, "assets", "prototypes");
 const args = parseArgs(process.argv.slice(2));
 
 if (args.help) {
@@ -20,6 +21,7 @@ const packageName = toPackageName(displayName);
 
 if (!fs.existsSync(templateCss)) fail(`Missing template CSS: ${templateCss}`);
 if (!fs.existsSync(dragHelper)) fail(`Missing drag helper: ${dragHelper}`);
+if (!fs.existsSync(prototypeAssets)) fail(`Missing prototype assets: ${prototypeAssets}`);
 if (fs.existsSync(projectRoot) && fs.readdirSync(projectRoot).length > 0 && !args.force) {
   fail(`Target directory is not empty: ${projectRoot}\nUse --force only if you intentionally want to write into it.`);
 }
@@ -121,7 +123,18 @@ export default defineConfig({
   writeText("src/main.jsx", `import React, { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { installLumaWindowDrag } from "./lib/luma-window-drag.js";
+import psychicLogo from "./assets/prototypes/psychic/idle.png";
+import signalLogo from "./assets/prototypes/signal/idle.png";
+import campLogo from "./assets/prototypes/camp/idle.png";
+import slingLogo from "./assets/prototypes/sling/idle.png";
+import shadowLogo from "./assets/prototypes/shadow/idle.png";
+import skaterLogo from "./assets/prototypes/skater/idle.png";
+import callerLogo from "./assets/prototypes/caller/idle.png";
+import marshalLogo from "./assets/prototypes/marshal/idle.png";
 import "./styles.css";
+
+const dailyLogos = [psychicLogo, signalLogo, campLogo, slingLogo, shadowLogo, skaterLogo, callerLogo, marshalLogo];
+const dockThemes = ["taiji", "fridge", "capsule"];
 
 const starterModules = [
   {
@@ -129,22 +142,32 @@ const starterModules = [
     title: "发帖子",
     type: "open-url",
     description: "打开发文入口",
+    icon: "发",
     url: "https://fawen.fun"
   },
   {
     id: "quick-links",
     title: "快捷入口",
     type: "quick-links",
-    description: "新增、命名、打开常用入口"
+    description: "新增、命名、打开常用入口",
+    icon: "入"
   },
   {
     id: "copy-info",
     title: "资料复制",
     type: "copy-text",
     description: "点一下复制常用资料",
+    icon: "复",
     text: ""
   }
 ];
+
+function getDailyLogo() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const day = Math.floor((now - start) / 86400000);
+  return dailyLogos[day % dailyLogos.length];
+}
 
 function App() {
   const [collapsed, setCollapsed] = useState(false);
@@ -154,9 +177,10 @@ function App() {
   const [draftLink, setDraftLink] = useState({ title: "", url: "" });
   const [copyText, setCopyText] = useState("");
   const [toast, setToast] = useState("");
+  const [dockTheme, setDockTheme] = useState("taiji");
 
   useEffect(() => {
-    const root = document.querySelector(".luma-stage");
+    const root = document.querySelector(".shortcut-stage");
     return installLumaWindowDrag(root);
   }, []);
 
@@ -237,22 +261,58 @@ function App() {
     notify("已复制");
   }
 
+  function cycleDockTheme() {
+    setDockTheme((current) => dockThemes[(dockThemes.indexOf(current) + 1) % dockThemes.length]);
+  }
+
+  const panelTitle = activePanel === "quick-links" ? "快捷入口" : activePanel === "copy" ? "资料复制" : displayName;
+  const panelHint = activePanel === "quick-links"
+    ? "新增、命名，再打开具体入口"
+    : activePanel === "copy"
+      ? "先编辑内容，再一键复制"
+      : "桌面端入口已打开，不是网页预览";
+  const dailyLogo = getDailyLogo();
+
   return (
-    <main className={\`luma-stage luma-theme-taiji \${collapsed ? "is-collapsed" : ""}\`}>
-      <section className="luma-dock" aria-label="${escapeAttr(displayName)}">
-        <button className="luma-collapsed-trigger" type="button" onClick={() => setCollapsed(false)} aria-label="展开光岛">
-          <span className="luma-orb-value">100%</span>
+    <main className={\`shortcut-stage \${collapsed ? "collapsed" : "expanded"} theme-\${dockTheme} \${!collapsed ? "panel-open" : ""}\`}>
+      <section className="liquid-dock" aria-label="${escapeAttr(displayName)}快捷栏">
+        <div className="collapsed-quota-rail" aria-label="${escapeAttr(displayName)}入口">
+          <button
+            className="collapsed-center has-quota"
+            type="button"
+            aria-label="展开光岛"
+            onClick={() => setCollapsed(false)}
+            title="Claude Code 100%，Codex 100%"
+          >
+            <svg className="quota-taiji" viewBox="0 0 72 72" aria-hidden="true">
+              <path className="quota-track quota-track-claude" d="M36 5 A31 31 0 0 0 36 67" pathLength="100" />
+              <path className="quota-track quota-track-codex" d="M36 67 A31 31 0 0 0 36 5" pathLength="100" />
+              <path className="quota-progress quota-progress-claude" d="M36 5 A31 31 0 0 0 36 67" pathLength="100" style={{ strokeDasharray: "100 100" }} />
+              <path className="quota-progress quota-progress-codex" d="M36 67 A31 31 0 0 0 36 5" pathLength="100" style={{ strokeDasharray: "100 100" }} />
+            </svg>
+            <span className="taiji-core" aria-hidden="true">
+              <span className="taiji-side claude-side" title="Claude Code">
+                <strong>100%</strong>
+                <small>CC</small>
+              </span>
+              <span className="taiji-divider" />
+              <span className="taiji-side codex-side" title="Codex">
+                <strong>100%</strong>
+                <small>Codex</small>
+              </span>
+            </span>
+          </button>
+        </div>
+
+        <button className="dock-orb" type="button" onClick={cycleDockTheme} title="切换收起样式">
+          <img src={dailyLogo} alt="" />
         </button>
 
-        <button className="luma-orb luma-no-drag" type="button" onClick={() => setCollapsed((value) => !value)}>
-          <span>光岛</span>
-        </button>
-
-        <div className="luma-module-list">
+        <div className="shortcut-list">
           {modules.map((module) => (
-            <button className="luma-module-button luma-no-drag" key={module.id} type="button" onClick={() => handleModule(module)}>
-              <span className="luma-module-icon">{module.title.slice(0, 1)}</span>
-              <span className="luma-module-copy">
+            <button className="shortcut-button" key={module.id} type="button" onClick={() => handleModule(module)} title={module.description}>
+              <span className="shortcut-icon">{module.icon || module.title.slice(0, 1)}</span>
+              <span className="shortcut-copy">
                 <strong>{module.title}</strong>
                 <small>{module.description}</small>
               </span>
@@ -260,69 +320,103 @@ function App() {
           ))}
         </div>
 
-        <div className="luma-tools">
-          <button className="luma-icon-button luma-no-drag" type="button" onClick={() => setCollapsed(true)} aria-label="收起">-</button>
+        <div className="dock-tools">
+          <button className="round-tool collapse" type="button" onClick={() => setCollapsed(true)} title="收起到右侧">›</button>
         </div>
       </section>
 
-      <section className="luma-panel is-open">
+      <aside className={\`info-panel \${!collapsed ? "show" : ""}\`}>
+        <div className="panel-head">
+          <div>
+            <strong>{panelTitle}</strong>
+            <span>{panelHint}</span>
+          </div>
+          <div className="panel-head-tools">
+            <button className="panel-close" type="button" onClick={() => setCollapsed(true)} aria-label="关闭">×</button>
+          </div>
+        </div>
+
         {activePanel === "home" && (
-          <>
-            <header className="luma-panel-header">
-              <span className="luma-eyebrow">桌面应用</span>
-              <h1>{displayName}</h1>
-              <p>点左侧按钮开始任务。这个窗口是 Electron 桌面壳，不是网页。</p>
-            </header>
-            <div className="luma-card">
-              <strong>下一步</strong>
-              <p>把资料复制、常用回复、状态面板换成你的真实内容。</p>
+          <div className="info-copy-panel">
+            <button className="wide-action" type="button" onClick={() => setActivePanel("quick-links")}>
+              <span className="shortcut-icon">入</span>
+              <span>
+                <strong>快捷入口</strong>
+                <small>新增链接，命名后再打开</small>
+              </span>
+            </button>
+            <button className="wide-action" type="button" onClick={() => setActivePanel("copy")}>
+              <span className="shortcut-icon">复</span>
+              <span>
+                <strong>资料复制</strong>
+                <small>先编辑你的真实内容</small>
+              </span>
+            </button>
+            <div className="info-quote-section">
+              <div className="info-section-head">
+                <strong>桌面应用已就绪</strong>
+                <small>这套外壳复用当前桌面端样式，仅模块内容不同。</small>
+              </div>
             </div>
-          </>
+          </div>
         )}
 
         {activePanel === "quick-links" && (
-          <>
-            <header className="luma-panel-header">
-              <span className="luma-eyebrow">快捷入口</span>
-              <h1>新增入口</h1>
-              <p>先命名，再打开。不要让按钮自动跳到随机网址。</p>
-            </header>
-            <form className="luma-form" onSubmit={addQuickLink}>
-              <input className="luma-input luma-no-drag" placeholder="名字，比如：项目后台" value={draftLink.title} onChange={(event) => setDraftLink({ ...draftLink, title: event.target.value })} />
-              <input className="luma-input luma-no-drag" placeholder="地址，比如：https://example.com" value={draftLink.url} onChange={(event) => setDraftLink({ ...draftLink, url: event.target.value })} />
-              <button className="luma-primary-button luma-no-drag" type="submit">添加入口</button>
-            </form>
-            <div className="luma-list">
+          <div className="jump-panel">
+            <div className="jump-list">
               {quickLinks.map((entry) => (
-                <button className="luma-list-row luma-no-drag" key={entry.id} type="button" onClick={() => window.islandApi?.openUrl?.(entry.url)}>
-                  <span>{entry.title}</span>
-                  <small>{entry.url}</small>
-                </button>
+                <div className="jump-item" key={entry.id}>
+                  <button className="jump-open-button" type="button" onClick={() => window.islandApi?.openUrl?.(entry.url)}>
+                    <span>
+                      <strong>{entry.title}</strong>
+                      <small>{entry.url}</small>
+                    </span>
+                  </button>
+                </div>
               ))}
-              {quickLinks.length === 0 && <p className="luma-empty">还没有入口，先添加一个。</p>}
+              {quickLinks.length === 0 && <div className="jump-add-box">还没有入口，先添加一个。</div>}
             </div>
-          </>
+            <form className="jump-add-box" onSubmit={addQuickLink}>
+              <label>
+                <span>名字</span>
+                <input placeholder="比如：项目后台" value={draftLink.title} onChange={(event) => setDraftLink({ ...draftLink, title: event.target.value })} />
+              </label>
+              <label>
+                <span>地址</span>
+                <input placeholder="比如：https://example.com" value={draftLink.url} onChange={(event) => setDraftLink({ ...draftLink, url: event.target.value })} />
+              </label>
+              <button className="wide-action" type="submit">
+                <span className="shortcut-icon">+</span>
+                <span>
+                  <strong>添加入口</strong>
+                  <small>保存后从列表里打开</small>
+                </span>
+              </button>
+            </form>
+          </div>
         )}
 
         {activePanel === "copy" && (
-          <>
-            <header className="luma-panel-header">
-              <span className="luma-eyebrow">资料复制</span>
-              <h1>编辑内容</h1>
-              <p>这个模块不能只放占位。填好后再复制。</p>
-            </header>
-            <form className="luma-form" onSubmit={saveCopyText}>
-              <textarea className="luma-textarea luma-no-drag" placeholder="这里填你要复制的资料" value={copyText} onChange={(event) => setCopyText(event.target.value)} />
-              <div className="luma-button-row">
-                <button className="luma-secondary-button luma-no-drag" type="submit">保存内容</button>
-                <button className="luma-primary-button luma-no-drag" type="button" onClick={copyCurrentText}>复制</button>
+          <form className="info-copy-panel" onSubmit={saveCopyText}>
+            <section className="info-quote-section">
+              <div className="info-section-head">
+                <strong>编辑内容</strong>
+                <small>这个模块不能只放占位，填好后再复制。</small>
               </div>
-            </form>
-          </>
+              <label className="quote-block">
+                <span>要复制的正文</span>
+                <textarea placeholder="这里填你要复制的资料" value={copyText} onChange={(event) => setCopyText(event.target.value)} />
+              </label>
+              <div className="panel-actions">
+                <button type="submit">保存内容</button>
+                <button type="button" onClick={copyCurrentText}>复制</button>
+              </div>
+            </section>
+          </form>
         )}
-      </section>
+      </aside>
 
-      {toast && <div className="luma-toast">{toast}</div>}
+      <div className={\`shortcut-toast \${toast ? "show" : ""}\`}>{toast}</div>
     </main>
   );
 }
@@ -331,108 +425,11 @@ createRoot(document.getElementById("root")).render(<App />);
 `);
 
   writeText("src/styles.css", `@import "./luma-default.css";
-
-html,
-body,
-#root {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: transparent;
-}
-
-body {
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-
-.luma-panel-header {
-  position: relative;
-  z-index: 1;
-  margin-bottom: 12px;
-}
-
-.luma-panel-header h1 {
-  margin: 4px 0 6px;
-  color: var(--luma-text);
-  font-size: 18px;
-  line-height: 1.1;
-}
-
-.luma-panel-header p,
-.luma-card p {
-  margin: 0;
-  color: var(--luma-muted);
-  font-size: 12px;
-  line-height: 1.45;
-}
-
-.luma-eyebrow {
-  color: var(--luma-accent-2);
-  font-size: 10px;
-  font-weight: 800;
-}
-
-.luma-form,
-.luma-list,
-.luma-button-row {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  gap: 8px;
-}
-
-.luma-input {
-  min-height: 36px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
-  padding: 0 12px;
-  background: rgba(255, 255, 255, 0.07);
-  color: var(--luma-text);
-  outline: none;
-}
-
-.luma-button-row {
-  grid-template-columns: 1fr 1fr;
-}
-
-.luma-primary-button,
-.luma-secondary-button,
-.luma-list-row {
-  min-height: 38px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  padding: 0 12px;
-  color: var(--luma-text);
-  font-weight: 800;
-}
-
-.luma-primary-button {
-  background: linear-gradient(135deg, rgba(76, 222, 128, 0.88), rgba(72, 191, 227, 0.78));
-}
-
-.luma-secondary-button,
-.luma-list-row {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.luma-list-row {
-  display: grid;
-  justify-items: start;
-  text-align: left;
-}
-
-.luma-list-row small {
-  max-width: 100%;
-  overflow: hidden;
-  color: var(--luma-muted);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 `);
 
   writeText("src/luma-default.css", fs.readFileSync(templateCss, "utf8"));
   writeText("src/lib/luma-window-drag.js", fs.readFileSync(dragHelper, "utf8"));
+  copyDir(prototypeAssets, path.join(projectRoot, "src", "assets", "prototypes"));
   writeText("electron/main.cjs", mainProcessSource());
   writeText("electron/preload.cjs", preloadSource());
   writeText(".gitignore", `node_modules
@@ -594,6 +591,11 @@ function writeText(relativePath, text) {
   const target = path.join(projectRoot, relativePath);
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.writeFileSync(target, text);
+}
+
+function copyDir(source, target) {
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.cpSync(source, target, { recursive: true });
 }
 
 function toPackageName(value) {

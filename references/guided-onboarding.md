@@ -110,7 +110,7 @@ Default:
 - If tracking quota or status, choose `太极额度`.
 - If mostly opening links, copying snippets, or posting, choose `冰箱门`.
 
-Implementation default: copy `templates/default-luma-island.css` and keep `.luma-dock > .luma-collapsed-trigger` so the outer ring and ball stay centered together.
+Implementation default: copy `templates/default-luma-island.css`, keep `.liquid-dock > .collapsed-quota-rail > .collapsed-center`, and copy `assets/prototypes/` for `.dock-orb img` so the outer ring, ball, and avatar stay visually identical to the current desktop app.
 
 ## Step 6: Configure Each Module
 

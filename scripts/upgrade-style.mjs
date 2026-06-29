@@ -49,7 +49,7 @@ if (includeDrag) {
 }
 
 if (!projectUsesLumaClasses(projectRoot)) {
-  warnings.push("Could not find .luma-stage or .luma-dock in project source. The CSS was installed, but it may not apply until the UI uses the Luma template class names.");
+  warnings.push("Could not find .shortcut-stage or .liquid-dock in project source. The CSS was installed, but it may not apply until the UI uses the desktop template class names.");
 }
 
 if (changes.length === 0) {
@@ -178,7 +178,7 @@ function projectUsesLumaClasses(root) {
   return files.some((file) => {
     if (!/\.(jsx?|tsx?|html|css)$/.test(file)) return false;
     const text = fs.readFileSync(file, "utf8");
-    return text.includes("luma-stage") || text.includes("luma-dock");
+    return text.includes("shortcut-stage") || text.includes("liquid-dock");
   });
 }
 

@@ -95,30 +95,32 @@ Adjust these to the target OS and product requirements. Do not weaken isolation 
 
 ## Default Renderer Style
 
-For a new project, copy `templates/default-luma-island.css` into the renderer stylesheet before implementing custom UI. The default shell should use:
+For a new project, copy `templates/default-luma-island.css` into the renderer stylesheet before implementing custom UI. Also copy `assets/prototypes/` into `src/assets/prototypes/` for the dock orb. The default shell must match the current desktop app structure:
 
 ```text
-.luma-stage
-├── .luma-dock
-│   ├── .luma-collapsed-trigger
-│   ├── .luma-orb
-│   ├── .luma-module-list
-│   │   └── .luma-module-button
-│   └── .luma-tools
-└── .luma-panel
+.shortcut-stage[.expanded|.collapsed][.theme-taiji|.theme-fridge|.theme-capsule]
+├── .liquid-dock
+│   ├── .collapsed-quota-rail
+│   │   └── .collapsed-center
+│   ├── .dock-orb
+│   │   └── img
+│   ├── .shortcut-list
+│   │   └── .shortcut-button
+│   └── .dock-tools
+└── .info-panel[.show]
 ```
 
-Use `.is-collapsed` on `.luma-stage` for compact mode. Add one theme class to the same root node:
+Use `.collapsed` or `.expanded` on `.shortcut-stage`. Add one theme class to the same root node:
 
-- `.luma-theme-taiji`
-- `.luma-theme-fridge`
-- `.luma-theme-capsule`
+- `.theme-taiji`
+- `.theme-fridge`
+- `.theme-capsule`
 
-For existing repos, do not blindly replace the user's stylesheet. If the repo has no strong design system, adopt the template class names. If it already has a design system, carry over the transparent window, compact dock, collapsed trigger, panel shell, and small-button sizing patterns.
+For existing repos, do not blindly replace the user's stylesheet. If the repo has no strong design system, adopt the template class names. If it already has a design system, carry over the transparent window, compact dock, `.collapsed-center`, panel shell, and small-button sizing patterns.
 
 The default template uses fixed dock and panel dimensions. Do not let the module list stretch to fill all remaining vertical space. If a user chooses five or more modules, keep module rows stable and scroll the list.
 
-Collapsed mode is layout-sensitive. Do not re-parent `.luma-collapsed-trigger`, wrap it in another layout container, or move the outer ring into a separate element. In collapsed mode the dock becomes a fixed-size center box; `.luma-dock::after` draws the outer ring and `.luma-collapsed-trigger` is absolutely centered inside it. This is what keeps the ball and ring attached.
+Collapsed mode is layout-sensitive. Do not re-parent `.collapsed-center`, wrap it in another layout container, or move the outer ring into a separate element. In collapsed mode `.liquid-dock`, `.collapsed-quota-rail`, and `.collapsed-center` form one centered stack. This is what keeps the ball and ring attached.
 
 ## Dragging Model
 
@@ -137,9 +139,9 @@ window.lumaWindow = {
 ```
 
 3. Implement main-process handlers that only return the current window bounds and set the current window position.
-4. Install the drag helper on `.luma-stage`.
+4. Install the drag helper on `.shortcut-stage`.
 
-This pointer-based model allows short clicks to remain clicks and turns movement beyond a small threshold into window dragging. Inputs, textareas, selects, contenteditable nodes, and `.luma-no-drag` should remain editable.
+This pointer-based model allows short clicks to remain clicks and turns movement beyond a small threshold into window dragging. Inputs, textareas, selects, contenteditable nodes, and any explicit no-drag escape class should remain editable.
 
 ## IPC Surface
 
@@ -211,6 +213,7 @@ Then add:
 - a preload file
 - a renderer island component
 - `src/styles.css` copied from `templates/default-luma-island.css`
+- `src/assets/prototypes/` copied from `assets/prototypes/`
 - pointer dragging copied from `templates/luma-window-drag.js` or implemented equivalently
 - local module config
 - npm scripts for `dev`, `dev:renderer`, and `dev:electron`

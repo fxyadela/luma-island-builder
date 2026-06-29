@@ -4,17 +4,18 @@
 
 收起态是用户第一眼看到的东西。它不能只是装饰，也不能在数据缺失时显示奇怪符号。它必须在没有完整额度数据、状态集成或开发工具连接时，依然看起来合理。
 
-默认实现不要只写风格描述。新项目必须复制 `templates/default-luma-island.css`，并用其中的 `.luma-stage`、`.luma-dock`、`.luma-collapsed-trigger`、`.luma-panel`、`.luma-module-button` 作为 UI 外壳。这个模板已经包含透明桌面窗口、液态 dock、收起态发光环、面板、模块按钮和三种收起态主题。
+默认实现不要只写风格描述。新项目必须复制 `templates/default-luma-island.css`，并用其中的 `.shortcut-stage`、`.liquid-dock`、`.collapsed-center`、`.dock-orb`、`.shortcut-list`、`.shortcut-button`、`.info-panel` 作为 UI 外壳。这个模板直接复用当前桌面端样式，已经包含透明桌面窗口、液态 dock、收起态发光环、头像球、面板、模块按钮和三种收起态主题。
 
 收起态结构必须保持为：
 
 ```text
-.luma-stage.is-collapsed
-└── .luma-dock
-    └── .luma-collapsed-trigger
+.shortcut-stage.collapsed.theme-taiji
+└── .liquid-dock
+    └── .collapsed-quota-rail
+        └── .collapsed-center
 ```
 
-不要把外环、球体、额度文字拆成不同的定位容器。外环由 `.luma-dock::after` 画出来，球体由 `.luma-collapsed-trigger` 画出来；collapsed 状态下两者都以 `.luma-dock` 中心绝对居中。任何自定义都必须先保证同心，再调材质。
+不要把外环、球体、额度文字拆成不同的定位容器。外环由 `.liquid-dock::after` 和 `.collapsed-center::after` 共同形成，球体和额度内容在 `.collapsed-center` 内；collapsed 状态下它们必须共享 `.liquid-dock` 的中心。任何自定义都必须先保证同心，再调材质。
 
 ## 数据兜底规则
 
@@ -61,10 +62,10 @@
 
 适合想显示额度、状态或双源信息的用户。
 
-默认 CSS 类：在根节点使用 `.luma-stage.is-collapsed.luma-theme-taiji`，收起按钮内使用 `.luma-quota-taiji`、`.luma-taiji-core`、`.luma-taiji-side`。
+默认 CSS 类：在根节点使用 `.shortcut-stage.collapsed.theme-taiji`，收起按钮内使用 `.quota-taiji`、`.taiji-core`、`.taiji-side`。
 
 - 形状：成对圆形、环形、太极式左右平衡标记。
-- 同心要求：外环和中心球体必须绑定在 `.luma-dock` 的同一个中心点。
+- 同心要求：外环和中心球体必须绑定在 `.liquid-dock` 的同一个中心点。
 - 适合：Codex/Claude Code 额度、双来源状态、AI 工作面板。
 - 正常状态：显示两个额度/状态值。
 - 暂无用量：显示 `100%`，不要显示 `--` 或昵称。
@@ -75,7 +76,7 @@
 
 适合想要一个友好物件感入口的用户。
 
-默认 CSS 类：在根节点使用 `.luma-stage.is-collapsed.luma-theme-fridge`，继续复用 `.luma-dock` 和 `.luma-collapsed-trigger`。
+默认 CSS 类：在根节点使用 `.shortcut-stage.collapsed.theme-fridge`，继续复用 `.liquid-dock` 和 `.collapsed-center`。
 
 - 形状：圆角方块或 squircle。
 - 材质：浅色、磨砂、软塑料或轻微金属质感。
@@ -88,7 +89,7 @@
 
 适合更有氛围、更像 AI 工具或状态容器的用户。
 
-默认 CSS 类：在根节点使用 `.luma-stage.is-collapsed.luma-theme-capsule`，继续复用 `.luma-dock` 和 `.luma-collapsed-trigger`。
+默认 CSS 类：在根节点使用 `.shortcut-stage.collapsed.theme-capsule`，继续复用 `.liquid-dock` 和 `.collapsed-center`。
 
 - 形状：竖向胶囊或药丸。
 - 材质：深色上半区 + 半透明液体、渐变或下半区发光。
